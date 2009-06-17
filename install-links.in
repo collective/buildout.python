@@ -1,18 +1,15 @@
 #!/bin/sh
 for i in ${buildout:directory}/bin/*2.*; do
     DEST=${install-links:prefix}/bin/`basename $i`;
-    rm -vf $DEST;
-    ln -vs $i $DEST;
+    ln -vis $i $DEST;
 done
 for i in ${buildout:directory}/python-2.*/bin/*2.*; do
     DEST=${install-links:prefix}/bin/`basename $i`;
-    rm -vf $DEST;
-    ln -vs $i $DEST;
+    ln -vis $i $DEST;
 done
 for i in ${buildout:directory}/python-2.*; do
     BASE=`basename $i`;
     VERSION=${install-links:dollar}{BASE#python-};
     DEST=${install-links:prefix}/bin/buildout-$VERSION;
-    rm -vf $DEST;
-    ln -vs $i/bin/buildout $DEST;
+    ln -vis $i/bin/buildout $DEST;
 done
