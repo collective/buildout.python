@@ -1,0 +1,4 @@
+In lieu of an issue tracker...
+
+2009-24-08: PIL does not get linked with the included libjpeg (Mac OS X 10.5)
+            [lrowe]
