@@ -1,4 +1,8 @@
 In lieu of an issue tracker...
 
-2009-24-08: PIL does not get linked with the included libjpeg (Mac OS X 10.5)
+2009-08-24: PIL does not get linked with the included libjpeg (Mac OS X 10.5)
             [lrowe]
+
+            Fixed 2009-08-25 by linking the headers and library files into
+            the virtualenv of each python version.
+            [fschulze]
