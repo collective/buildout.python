@@ -18,3 +18,34 @@ needs:
   
   [install-links]
   prefix = /path/for/the/links
+
+The buildout is built in a way that you can easily use it as an svn external
+with your own configuration.
+
+Just set your svn:externals to something like this:
+
+  src http://svn.plone.org/svn/collective/buildout/python/src
+
+And use a custom buildout.cfg like this:
+
+  [buildout]
+  extends = src/macosx.cfg
+  python-buildout-root = ${buildout:directory}/src
+
+If you want just one python version but all dependencies, then use something
+like this:
+
+  [buildout]
+  extends =
+      base.cfg
+      readline.cfg
+      libjpeg.cfg
+      python25.cfg
+      links.cfg
+
+  parts =
+      ${buildout:base-parts}
+      ${buildout:readline-parts}
+      ${buildout:libjpeg-parts}
+      ${buildout:python25-parts}
+      ${buildout:links-parts}
