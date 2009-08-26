@@ -1,0 +1,11 @@
+--- configure.org	2009-08-26 10:08:27.000000000 +0200
++++ configure	2009-08-26 10:08:43.000000000 +0200
+@@ -3907,7 +3907,7 @@
+ 	    ;;
+ 	# is there any other compiler on Darwin besides gcc?
+ 	Darwin*)
+-	    BASECFLAGS="$BASECFLAGS -Wno-long-double -no-cpp-precomp -mno-fused-madd"
++	    BASECFLAGS="$BASECFLAGS -no-cpp-precomp -mno-fused-madd"
+ 	    if test "${enable_universalsdk}"; then
+ 		BASECFLAGS="-arch ppc -arch i386 -isysroot ${UNIVERSALSDK} ${BASECFLAGS}"
+ 	    fi
