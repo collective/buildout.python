@@ -1,6 +1,6 @@
---- configure.org	2009-08-26 10:08:27.000000000 +0200
-+++ configure	2009-08-26 21:52:19.000000000 +0200
-@@ -3907,7 +3907,6 @@
+--- configure.org	2009-08-26 21:43:42.000000000 +0200
++++ configure	2009-08-26 21:52:26.000000000 +0200
+@@ -4534,7 +4534,6 @@
  	    ;;
  	# is there any other compiler on Darwin besides gcc?
  	Darwin*)
