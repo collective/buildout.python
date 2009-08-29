@@ -2,6 +2,26 @@ Changes
 =======
 
 
-* 2009-08-27: Removed zc.buildout installation. It just causes version
-  conflicts in buildouts with a version pin on zc.buildout and similar issues.
+2009-08-29
+----------
+
+* By depending on zc.buildout >= 1.4.0 the amount of repition in the python
+  parts was vastly reduced and makes the configuration more easily readable.
+  [fschulze]
+
+* Fixed path to patch for Python 2.5 on Snow Leopard.
+  [fschulze]
+
+* Added buildout-2.x scripts back without causing version conflicts by
+  wrapping them with zc.recipe.eggs instead of installing with easy_install.
+  [fschulze]
+
+* Minimized changes for Snow Leopard.
+  [fschulze]
+
+2009-08-27
+----------
+
+* Removed zc.buildout installation. It just causes version conflicts in
+  buildouts with a version pin on zc.buildout and similar issues.
   [fschulze]

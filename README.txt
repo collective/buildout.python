@@ -1,8 +1,29 @@
+Introduction
+------------
+
 This buildout is a collection of configurations to make it easy to compile
 various Python versions with or without the necessary dependencies.
 
-The default buildout.cfg configuration is for Mac OS X, because that's what
-this buildout was initially created for.
+The default buildout.cfg configuration is for Mac OS X Leopard, because that's
+what this buildout was initially created for.
+
+Dependencies
+------------
+
+On Mac OS X you need XCode installed.
+
+Upgrade
+-------
+
+If you used this buildout before and run into any issues then check the
+following notes:
+
+ * We depend on zc.buildout >= 1.4.1, but can't express this in the
+   configuration. Remove bin/buildout and the eggs directory and bootstrap
+   again.
+
+Advanced Usage
+--------------
 
 The buildout is split up to make it easy to mix and match the parts you need.
 
