@@ -5,6 +5,10 @@ Changes
 2009-08-29
 ----------
 
+* Make it possible to extend both distribute.cfg and pdbtextmate.cfg. See
+  pdbtextmate.cfg for notes though!
+  [fschulze]
+
 * Reorganized documentation.
   [fschulze]
 
