@@ -1,0 +1,6 @@
+If you used this buildout before and run into any issues then check the
+following notes:
+
+ * We depend on zc.buildout >= 1.4.1, but can't express this in the
+   configuration. Remove bin/buildout and the eggs directory and bootstrap
+   again (see INSTALL.txt).

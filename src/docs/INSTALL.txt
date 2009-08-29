@@ -1,0 +1,15 @@
+Mac OS X
+--------
+
+Install XCode from either your Mac OS DVD, or from
+http://developer.apple.com/TOOLS/Xcode/
+
+Bootstrap the buildout with the standard system python like this::
+
+  $ python bootstrap.py
+
+Run buildout like this afterwards::
+
+  $ ./bin/buildout
+
+Now you can use the python executables in python-2.4/bin/python2.4 etc.

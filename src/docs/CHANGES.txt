@@ -5,6 +5,9 @@ Changes
 2009-08-29
 ----------
 
+* Reorganized documentation.
+  [fschulze]
+
 * By depending on zc.buildout >= 1.4.0 the amount of repition in the python
   parts was vastly reduced and makes the configuration more easily readable.
   [fschulze]
