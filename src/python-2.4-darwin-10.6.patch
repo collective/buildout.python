@@ -1,4 +1,4 @@
---- configure.org	2009-08-26 10:08:27.000000000 +0200
+--- configure.orig	2009-08-26 10:08:27.000000000 +0200
 +++ configure	2009-08-26 21:52:19.000000000 +0200
 @@ -3907,7 +3907,6 @@
  	    ;;
@@ -8,3 +8,58 @@
  	    if test "${enable_universalsdk}"; then
  		BASECFLAGS="-arch ppc -arch i386 -isysroot ${UNIVERSALSDK} ${BASECFLAGS}"
  	    fi
+--- pyconfig.h.in.orig	2006-10-08 19:41:25.000000000 +0200
++++ pyconfig.h.in	2009-08-31 15:28:31.000000000 +0200
+@@ -329,9 +329,6 @@
+ /* Define to 1 if you have the `plock' function. */
+ #undef HAVE_PLOCK
+ 
+-/* Define to 1 if you have the `poll' function. */
+-#undef HAVE_POLL
+-
+ /* Define to 1 if you have the <poll.h> header file. */
+ #undef HAVE_POLL_H
+ 
+@@ -849,6 +846,8 @@
+ /* Define to activate features from IEEE Stds 1003.1-2001 */
+ #undef _POSIX_C_SOURCE
+ 
++#define _DARWIN_C_SOURCE
++
+ /* Define if you have POSIX threads, and your system does not define that. */
+ #undef _POSIX_THREADS
+ 
+--- Include/pyport.h.orig	2007-03-12 23:26:06.000000000 -0700
++++ Include/pyport.h	2007-03-12 23:29:35.000000000 -0700
+@@ -152,11 +152,23 @@ typedef PY_LONG_LONG		Py_intptr_t;
+ #if defined(PYOS_OS2) && defined(PYCC_GCC)
+ #include <sys/types.h>
+ #endif
++
++#if (defined __APPLE__) && (!defined _POSIX_C_SOURCE)
++#define TEMPORARILY_DEFINING__POSIX_C_SOURCE    /* so we can #undef it later */
++#define _POSIX_C_SOURCE   /* avoid deprecated struct ostat in sys/stat.h */
++#endif
++
+ #include <sys/stat.h>
+ #elif defined(HAVE_STAT_H)
+ #include <stat.h>
+ #endif
+ 
++/* Mac OS X: undefine _POSIX_C_SOURCE if it wasn't defined before */
++#ifdef TEMPORARILY_DEFINING__POSIX_C_SOURCE
++#undef _POSIX_C_SOURCE
++#undef TEMPORARILY_DEFINING__POSIX_C_SOURCE
++#endif
++
+ #if defined(PYCC_VACPP)
+ /* VisualAge C/C++ Failed to Define MountType Field in sys/stat.h */
+ #define S_IFMT (S_IFDIR|S_IFCHR|S_IFREG)
+@@ -393,6 +405,7 @@ extern char * _getpty(int *, int, mode_t
+ /* BSDI does not supply a prototype for the 'openpty' and 'forkpty'
+    functions, even though they are included in libutil. */
+ #include <termios.h>
++struct winsize;
+ extern int openpty(int *, int *, char *, struct termios *, struct winsize *);
+ extern int forkpty(int *, char *, struct termios *, struct winsize *);
+ #endif /* !defined(HAVE_PTY_H) && !defined(HAVE_LIBUTIL_H) */
