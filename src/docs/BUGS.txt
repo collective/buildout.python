@@ -3,8 +3,14 @@ In lieu of an issue tracker...
 2009-09-01: Python 2.6 is currently disabled.
             [fschulze]
 
+            Fixed on 2009-09-05
+            [fschulze]
+
 2009-09-01: There are several issues on Snow Leopard when things like zlib or
             libjpeg are installed with MacPorts.
+            [fschulze]
+
+            Fixed on 2009-09-05 by compiling as 64-bit.
             [fschulze]
 
 2009-08-24: PIL does not get linked with the included libjpeg (Mac OS X 10.5)

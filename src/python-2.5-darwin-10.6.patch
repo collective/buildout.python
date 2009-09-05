@@ -1,5 +1,25 @@
---- Include/pyport.h.orig	2008-02-14 12:26:18.000000000 +0100
-+++ Include/pyport.h	2009-08-31 17:55:02.000000000 +0200
+diff -ru Include/pymactoolbox.h Include/pymactoolbox.h
+--- Include/pymactoolbox.h	2004-11-05 08:02:59.000000000 +0100
++++ Include/pymactoolbox.h	2009-09-05 01:35:54.000000000 +0200
+@@ -134,6 +134,7 @@
+ extern int GWorldObj_Convert(PyObject *, GWorldPtr *);
+ 
+ /* Qt exports */
++/*
+ extern PyObject *TrackObj_New(Track);
+ extern int TrackObj_Convert(PyObject *, Track *);
+ extern PyObject *MovieObj_New(Movie);
+@@ -146,6 +147,7 @@
+ extern int UserDataObj_Convert(PyObject *, UserData *);
+ extern PyObject *MediaObj_New(Media);
+ extern int MediaObj_Convert(PyObject *, Media *);
++*/
+ 
+ /* Res exports */
+ extern PyObject *ResObj_New(Handle);
+diff -ru Include/pyport.h Include/pyport.h
+--- Include/pyport.h	2008-02-14 12:26:18.000000000 +0100
++++ Include/pyport.h	2009-09-05 01:35:15.000000000 +0200
 @@ -293,11 +293,23 @@
  #if defined(PYOS_OS2) && defined(PYCC_GCC)
  #include <sys/types.h>
@@ -32,8 +52,51 @@
  extern int openpty(int *, int *, char *, struct termios *, struct winsize *);
  extern int forkpty(int *, char *, struct termios *, struct winsize *);
  #endif /* !defined(HAVE_PTY_H) && !defined(HAVE_LIBUTIL_H) */
---- pyconfig.h.in.orig	2008-09-07 08:42:43.000000000 +0200
-+++ pyconfig.h.in	2009-08-31 17:55:02.000000000 +0200
+diff -ru Mac/Modules/MacOS.c Mac/Modules/MacOS.c
+--- Mac/Modules/MacOS.c	2006-07-25 21:20:54.000000000 +0200
++++ Mac/Modules/MacOS.c	2009-09-05 02:12:09.000000000 +0200
+@@ -40,7 +40,7 @@
+ 
+ typedef struct {
+ 	PyObject_HEAD
+-	short fRefNum;
++	FSIORefNum fRefNum;
+ 	int isclosed;
+ } rfobject;
+ 
+diff -ru Python/mactoolboxglue.c Python/mactoolboxglue.c
+--- Python/mactoolboxglue.c	2006-07-11 18:44:25.000000000 +0200
++++ Python/mactoolboxglue.c	2009-09-05 01:35:40.000000000 +0200
+@@ -417,6 +417,7 @@
+ GLUE_NEW(GWorldPtr, GWorldObj_New, "Carbon.Qdoffs")
+ GLUE_CONVERT(GWorldPtr, GWorldObj_Convert, "Carbon.Qdoffs")
+ 
++/*
+ GLUE_NEW(Track, TrackObj_New, "Carbon.Qt")
+ GLUE_CONVERT(Track, TrackObj_Convert, "Carbon.Qt")
+ GLUE_NEW(Movie, MovieObj_New, "Carbon.Qt")
+@@ -429,6 +430,7 @@
+ GLUE_CONVERT(UserData, UserDataObj_Convert, "Carbon.Qt")
+ GLUE_NEW(Media, MediaObj_New, "Carbon.Qt")
+ GLUE_CONVERT(Media, MediaObj_Convert, "Carbon.Qt")
++*/
+ 
+ GLUE_NEW(Handle, ResObj_New, "Carbon.Res")
+ GLUE_CONVERT(Handle, ResObj_Convert, "Carbon.Res")
+diff -ru configure configure
+--- configure	2008-12-13 15:13:52.000000000 +0100
++++ configure	2009-09-05 01:35:15.000000000 +0200
+@@ -4534,7 +4534,6 @@
+ 	    ;;
+ 	# is there any other compiler on Darwin besides gcc?
+ 	Darwin*)
+-	    BASECFLAGS="$BASECFLAGS -Wno-long-double -no-cpp-precomp -mno-fused-madd"
+ 	    if test "${enable_universalsdk}"; then
+ 		BASECFLAGS="-arch ppc -arch i386 -isysroot ${UNIVERSALSDK} ${BASECFLAGS}"
+ 	    fi
+diff -ru pyconfig.h.in pyconfig.h.in
+--- pyconfig.h.in	2008-09-07 08:42:43.000000000 +0200
++++ pyconfig.h.in	2009-09-05 01:35:15.000000000 +0200
 @@ -372,9 +372,6 @@
  /* Define to 1 if you have the `plock' function. */
  #undef HAVE_PLOCK

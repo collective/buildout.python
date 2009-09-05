@@ -2,6 +2,23 @@ Changes
 =======
 
 
+2009-09-05
+----------
+
+* Made MacPorts compatible on Snow Leopard by compiling as 64-bit.
+  [fschulze]
+
+* Added Python 2.6 back on Snow Leopard.
+  [fschulze]
+
+
+2009-08-31
+----------
+
+* Running on Snow Leopard with 32-bit. Conflicts with MacPorts.
+  [fschulze]
+
+
 2009-08-29
 ----------
 
@@ -25,6 +42,7 @@ Changes
 
 * Minimized changes for Snow Leopard.
   [fschulze]
+
 
 2009-08-27
 ----------
