@@ -18,6 +18,10 @@ Changes
 * Running on Snow Leopard with 32-bit. Conflicts with MacPorts.
   [fschulze]
 
+* Removed zc.buildout scripts again, because the installation fails for some
+  weird reason.
+  [fschulze]
+
 
 2009-08-29
 ----------
