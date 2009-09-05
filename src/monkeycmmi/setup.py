@@ -17,7 +17,7 @@ setup(name='monkeycmmi',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'zc.recipe.cmmi==1.3',
+        'zc.recipe.cmmi==1.2.1',
       ],
       entry_points = {'zc.buildout':
                       ['default = monkeycmmi:Recipe']},
