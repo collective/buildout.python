@@ -1,16 +1,9 @@
 If you used this buildout before and run into any issues then check the
 following notes:
 
- * Simplest upgrade is to just use a clean checkout :)
-
  * We depend on zc.buildout >= 1.4.1, but can't express this in the
-   configuration. Remove 'bin/buildout', the 'parts', the 'eggs' and
-   'python-2.x' directories and bootstrap again (see INSTALL.txt).
-
- * We use 'distribute' by default now, if you ran the buildout before, then
-   there will be conflicts which can't be resolved automatically.
-   Remove 'bin/buildout', the 'parts', the 'eggs' and 'python-2.x'
-   directories and bootstrap again (see INSTALL.txt).
+   configuration. Remove bin/buildout and the eggs directory and bootstrap
+   again (see INSTALL.txt).
 
  * If you ran this on Snow Leopard before 2009-09-05, then you got a 32-bit
    version. You need to recreate all modules with C extensions, so basically
