@@ -55,7 +55,7 @@ diff -ru Include/pyport.h Include/pyport.h
 diff -ru Mac/Modules/MacOS.c Mac/Modules/MacOS.c
 --- Mac/Modules/MacOS.c	2006-07-25 21:20:54.000000000 +0200
 +++ Mac/Modules/MacOS.c	2009-09-05 02:12:09.000000000 +0200
-@@ -40,7 +40,7 @@
+@@ -40,13 +40,14 @@
  
  typedef struct {
  	PyObject_HEAD
@@ -64,6 +64,65 @@ diff -ru Mac/Modules/MacOS.c Mac/Modules/MacOS.c
  	int isclosed;
  } rfobject;
  
+ static PyTypeObject Rftype;
+ 
+ 
++#if 0
+ 
+ /* ---------------------------------------------------------------- */
+ 
+@@ -551,7 +552,9 @@
+ 	if ( (fp = newrfobject()) == NULL )
+ 		return NULL;
+ 		
++/*
+ 	err = HOpenRF(fss.vRefNum, fss.parID, fss.name, permission, &fp->fRefNum);
++*/
+ 	
+ 	if ( err == fnfErr ) {
+ 		/* In stead of doing complicated things here to get creator/type
+@@ -572,7 +575,9 @@
+ 			return NULL;
+ 		}
+ 		fclose(tfp);
++/*
+ 		err = HOpenRF(fss.vRefNum, fss.parID, fss.name, permission, &fp->fRefNum);
++*/
+ 	}
+ 	if ( err ) {
+ 		Py_DECREF(fp);
+@@ -582,9 +587,11 @@
+ 	fp->isclosed = 0;
+ 	return (PyObject *)fp;
+ }
++#endif
+ 
+ 
+ static PyMethodDef MacOS_Methods[] = {
++#if 0
+ 	{"GetCreatorAndType",		MacOS_GetCreatorAndType, 1,	getcrtp_doc},
+ 	{"SetCreatorAndType",		MacOS_SetCreatorAndType, 1,	setcrtp_doc},
+ 	{"GetErrorString",		MacOS_GetErrorString,	1,	geterr_doc},
+@@ -594,6 +601,7 @@
+ 	{"GetTicks",			MacOS_GetTicks,		1,	GetTicks_doc},
+ 	{"SysBeep",			MacOS_SysBeep,		1,	SysBeep_doc},
+ 	{"WMAvailable",			MacOS_WMAvailable,		1,	WMAvailable_doc},
++#endif
+ 	{NULL,				NULL}		 /* Sentinel */
+ };
+ 
+diff -ru Mac/Modules/gestaltmodule.c Mac/Modules/gestaltmodule.c
+--- Mac/Modules/gestaltmodule.c	2006-05-29 23:58:42.000000000 +0200
++++ Mac/Modules/gestaltmodule.c	2009-10-07 17:35:21.000000000 +0200
+@@ -34,7 +34,7 @@
+ {
+ 	OSErr iErr;
+ 	OSType selector;
+-	long response;
++	SInt32 response;
+ 	if (!PyArg_ParseTuple(args, "O&", PyMac_GetOSType, &selector))
+ 		return NULL;
+ 	iErr = Gestalt ( selector, &response );
 diff -ru Python/mactoolboxglue.c Python/mactoolboxglue.c
 --- Python/mactoolboxglue.c	2006-07-11 18:44:25.000000000 +0200
 +++ Python/mactoolboxglue.c	2009-09-05 01:35:40.000000000 +0200
