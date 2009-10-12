@@ -19,13 +19,12 @@ use the -c option to specify an alternate configuration file.
 
 $Id$
 """
-
+import time
 import os, shutil, sys, tempfile, urllib2
 
 tmpeggs = tempfile.mkdtemp()
 
 is_jython = sys.platform.startswith('java')
-
 to_reload = False
 try:
     import pkg_resources
@@ -69,26 +68,11 @@ if is_jython:
            quote(tmpeggs), 'zc.buildout' + VERSION],
            env=dict(os.environ,
                PYTHONPATH=
-               ws.find(pkg_resources.Requirement.parse('setuptools')).location
-               ),
-           ).wait() == 0
-    assert subprocess.Popen([sys.executable] + ['-c', quote(cmd), '-mqNxd',
-           quote(tmpeggs), 'zc.buildout' + VERSION],
-           env=dict(os.environ,
-               PYTHONPATH=
                ws.find(pkg_resources.Requirement.parse('distribute')).location
                ),
            ).wait() == 0
 
 else:
-    assert os.spawnle(
-        os.P_WAIT, sys.executable, quote (sys.executable),
-        '-c', quote (cmd), '-mqNxd', quote (tmpeggs), 'zc.buildout' + VERSION,
-        dict(os.environ,
-            PYTHONPATH=
-            ws.find(pkg_resources.Requirement.parse('setuptools')).location
-            ),
-        ) == 0
     assert os.spawnle(
         os.P_WAIT, sys.executable, quote (sys.executable),
         '-c', quote (cmd), '-mqNxd', quote (tmpeggs), 'zc.buildout' + VERSION,
@@ -112,7 +96,7 @@ def _bootstrap(self, args):
     self._setup_directories()
     # Now copy buildout, distribute and setuptools eggs, and record destination eggs:
     entries = []
-    for name in 'setuptools', 'distribute', 'zc.buildout':
+    for name in 'distribute', 'zc.buildout':
         r = pkg_resources.Requirement.parse(name)
         dist = pkg_resources.working_set.find(r)
         if dist.precedence == pkg_resources.DEVELOP_DIST:
@@ -130,12 +114,56 @@ def _bootstrap(self, args):
                 else:
                     shutil.copy2(dist.location, dest)
 
+    import sys, time
+    egg_directory = self['buildout']['eggs-directory']
+    pyver = '%s.%s' % (sys.version_info[0], sys.version_info[1])
+    setuptools_name = 'setuptools-0.6c9-py%s.egg' % pyver
+
+    SETUPTOOLS_PKG_INFO  = ['Metadata-Version: 1.0',
+                            'Name: setuptools',
+                            'Version: 0.6c9',
+                            'Summary: xxxx',
+                            'Home-page: xxx'
+                            'Author: xxx',
+                            'Author-email: xxx',
+                            'License: xxx',
+                            'Description: xxx']
+    SETUPTOOLS_PKG_INFO = '\n'.join(SETUPTOOLS_PKG_INFO)
+    fake_setuptools = os.path.join(egg_directory, setuptools_name)
+    egg_info = os.path.join(fake_setuptools, 'EGG-INFO')
+    pkg_info = os.path.join(egg_info, 'PKG-INFO')
+
+    already_patched = False
+    if os.path.exists(fake_setuptools):
+        # checking if it's a real setuptools or a fake one
+        if os.path.exists(pkg_info):
+            f = open(pkg_info)
+            content = f.read()
+            f.close()
+            already_patched = content == SETUPTOOLS_PKG_INFO
+
+    if not already_patched:
+        if os.path.exists(fake_setuptools):
+            new_name = fake_setuptools + '.OLD.%s' % time.time()
+            os.rename(fake_setuptools, new_name)
+
+        os.mkdir(fake_setuptools)
+        os.mkdir(egg_info)
+        f = open(pkg_info, 'w')
+        try:
+            f.write(SETUPTOOLS_PKG_INFO)
+        finally:
+            f.close()
+
+    entries.append(fake_setuptools)
+
     # Create buildout script
     ws = pkg_resources.WorkingSet(entries)
     ws.require('zc.buildout')
     zc.buildout.easy_install.scripts(
         ['zc.buildout'], ws, sys.executable,
         self['buildout']['bin-directory'])
+    return True
 
 zc_buildout.Buildout.bootstrap = _bootstrap
 
