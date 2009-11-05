@@ -45,7 +45,7 @@ Just set your svn:externals to something like this:
 And use a custom buildout.cfg like this:
 
   [buildout]
-  extends = src/macosx.cfg
+  extends = src/base.cfg src/python24.cfg
   python-buildout-root = ${buildout:directory}/src
 
 If you want just one python version but all dependencies, then use something
@@ -53,11 +53,11 @@ like this:
 
   [buildout]
   extends =
-      base.cfg
-      readline.cfg
-      libjpeg.cfg
-      python25.cfg
-      links.cfg
+      src/base.cfg
+      src/readline.cfg
+      src/libjpeg.cfg
+      src/python25.cfg
+      src/links.cfg
 
   parts =
       ${buildout:base-parts}
