@@ -2,8 +2,11 @@ Changes
 =======
 
 
-2009-11-04
+2009-11-05
 ----------
+
+* Use virtualenv 1.4rc1 with the --distribute option.
+  [fschulze]
 
 * Autodetect 32/64 bit in Snow Leopard.
   [fschulze]
