@@ -2,10 +2,60 @@ Changes
 =======
 
 
+2009-11-03
+----------
+
+* Upgraded virtualenv-distribute to latest version to get distribute 0.6.6.
+  [reinout]
+
+
+2009-10-28
+----------
+
+* Added configuration to build Python with debug symbols for C level
+  debugging. Activate by including src/debug.cfg in your custom configuration.
+  [witsch]
+
+
 2009-10-27
 ----------
 
 * Updated to Python 2.6.4.
+  [fschulze]
+
+
+2009-10-12
+----------
+
+* Updated to Python 2.6.4rc1.
+  [hannosch]
+
+
+2009-10-07
+----------
+
+* Fixed Python 2.5.
+  [fschulze]
+
+* Added some sanity checks to make sure the installed Python virtualenvs
+  actually work.
+  [fschulze]
+
+* Auto-detection of the platfrom. No need for separate configs for
+  Snow Leopard etc.
+  [fschulze]
+
+* Use virtualenv-distribute.
+  [fschulze]
+
+* Use distribute instead of setuptools.
+  [fschulze]
+
+
+2009-10-02
+----------
+
+* Updated to Python 2.6.3.
   [fschulze]
 
 
