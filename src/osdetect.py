@@ -9,6 +9,10 @@ def osdetect(buildout):
             platforms.insert(0, 'darwin-leopard')
         elif mac_ver[0].startswith('10.6'):
             platforms.insert(0, 'darwin-snowleopard')
+            if sys.maxint > 2147483647:
+                platforms.insert(0, 'darwin-snowleopard-64')
+
+    buildout._logger.debug("Detected these platforms: %s" % ", ".join(platforms))
 
     variants = {}
     for key in buildout.keys():
