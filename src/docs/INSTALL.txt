@@ -6,7 +6,7 @@ http://developer.apple.com/TOOLS/Xcode/
 
 Bootstrap the buildout with the standard system python like this::
 
-  $ python bootstrap.py
+  $ /usr/bin/python bootstrap.py
 
 Run buildout like this afterwards::
 
