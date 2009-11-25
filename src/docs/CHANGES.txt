@@ -2,6 +2,16 @@ Changes
 =======
 
 
+2009-11-25
+----------
+
+* Added ugly hack which hopefully solves the build order issues causing
+  Python 2.4 to be build before readline was built.
+  [fschulze]
+
+* Ugraded to readline 6.0, 5.2 had compile issues on OS X.
+  [fschulze]
+
 2009-11-05
 ----------
 
