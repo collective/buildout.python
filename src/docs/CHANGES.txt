@@ -2,6 +2,12 @@ Changes
 =======
 
 
+2009-11-26
+----------
+
+* Renamed part for readline patches, so the old ones from 5.2 don't interfere.
+  [fschulze]
+
 2009-11-25
 ----------
 
