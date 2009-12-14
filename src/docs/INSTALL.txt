@@ -4,6 +4,19 @@ Mac OS X
 Install XCode from either your Mac OS DVD, or from
 http://developer.apple.com/TOOLS/Xcode/
 
+
+GNU/Linux
+---------
+
+Install the GNU C (gcc) and C++ (g++) compilers. On Ubuntu GNU/Linux, install
+the build-essential package:
+
+  $ sudo apt-get install build-essential
+
+
+All Platforms
+-------------
+
 Bootstrap the buildout with the standard system python like this::
 
   $ /usr/bin/python bootstrap.py
