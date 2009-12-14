@@ -23,7 +23,8 @@ def fetch(local, buildout):
             f.close()
         print "Writing new combined patch."
         out = open(os.path.join(prefix, "readline.patch"), "wb")
-        for patch_name in os.listdir(prefix):
+        lspatch = sorted(os.listdir(prefix))
+        for patch_name in lspatch:
             if re.match("readline\d+-\d+", patch_name):
                 f = open(os.path.join(prefix, patch_name), "rb")
                 out.write(f.read())
