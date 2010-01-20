@@ -1,5 +1,7 @@
 import os
 from zc.recipe.cmmi import Recipe as Base
+from zc.recipe.cmmi import system
+import logging
 
 
 # we need to patch the environment variable handling, see comment below
@@ -7,20 +9,9 @@ from zc.recipe.cmmi import Recipe as Base
 
 class Recipe(Base):
     def __init__(self, buildout, name, options):
-        self.name, self.options = name, options
+        self.buildout, self.name, self.options = buildout, name, options
         directory = buildout['buildout']['directory']
-        self.download_cache = buildout['buildout'].get('download-cache')
-        self.install_from_cache = buildout['buildout'].get('install-from-cache')
-
-        if self.download_cache:
-            # cache keys are hashes of url, to ensure repeatability if the
-            # downloads do not have a version number in the filename
-            # cache key is a directory which contains the downloaded file
-            # download details stored with each key as cache.ini
-            self.download_cache = os.path.join(
-                directory, self.download_cache, 'cmmi')
-            if not os.path.isdir(self.download_cache):
-                os.mkdir(self.download_cache)
+        download_cache = buildout['buildout'].get('download-cache')
 
         location = options.get(
             'location', buildout['buildout']['parts-directory'])
@@ -45,6 +36,14 @@ class Recipe(Base):
         else:
             self.environ = {}
 
+        self.source_directory_contains = self.options.get(
+            'source-directory-contains', 'configure')
+        self.configure_cmd = self.options.get(
+            'configure-command', './configure')
+        self.configure_options = self.options.get('configure-options', None)
+        if self.configure_options:
+            self.configure_options = ' '.join(self.configure_options.split())
+
         self.shared = options.get('shared', None)
         if self.shared:
             if os.path.isdir(self.shared):
@@ -52,15 +51,35 @@ class Recipe(Base):
                 # since we remove it in case of build errors
                 self.shared = os.path.join(self.shared, 'cmmi')
             else:
-                if not self.download_cache:
+                if not download_cache:
                     raise ValueError(
                         "Set the 'shared' option of zc.recipe.cmmi to an existing"
                         " directory, or set ${buildout:download-cache}")
 
                 self.shared = os.path.join(
-                    directory, self.download_cache, 'build')
-                if not os.path.isdir(self.shared):
-                    os.mkdir(self.shared)
+                    directory, download_cache, 'cmmi', 'build')
                 self.shared = os.path.join(self.shared, self._state_hash())
 
             options['location'] = self.shared
+
+    def cmmi(self, dest):
+        """Do the 'configure; make; make install' command sequence.
+
+        When this is called, the current working directory is the
+        source directory.  The 'dest' parameter specifies the
+        installation prefix.
+
+        This can be overridden by subclasses to support packages whose
+        command sequence is different.
+        """
+        options = self.configure_options
+        if options is None:
+            options = '--prefix=%s' % dest
+        if self.extra_options:
+            options += ' %s' % self.extra_options
+        # add logging here
+        logger = logging.getLogger(self.name)
+        logger.debug("%s %s" % (self.configure_cmd, options))
+        system("%s %s" % (self.configure_cmd, options))
+        system("make")
+        system("make install")

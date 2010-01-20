@@ -1,7 +1,7 @@
 from setuptools import setup, find_packages
 import sys, os
 
-version = '0.0'
+version = '0.1'
 
 setup(name='monkeycmmi',
       version=version,
@@ -17,7 +17,7 @@ setup(name='monkeycmmi',
       include_package_data=True,
       zip_safe=False,
       install_requires=[
-        'zc.recipe.cmmi==1.2.1',
+        'zc.recipe.cmmi==1.3.1',
       ],
       entry_points = {'zc.buildout':
                       ['default = monkeycmmi:Recipe']},
