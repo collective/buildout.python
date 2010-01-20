@@ -15,14 +15,19 @@ def osdetect(buildout):
     buildout._logger.debug("Detected these platforms: %s" % ", ".join(platforms))
 
     variants = {}
+    parts = set()
     for key in buildout.keys():
         if ':' not in key:
             continue
         part, variant = key.split(':')
         variants.setdefault(variant, []).append((part, key))
+        parts.add(part)
 
     for platform in platforms:
         for part, key in variants.get(platform, []):
             if part in buildout:
                 continue
             buildout._raw[part] = buildout._raw[key].copy()
+
+    for part in list(parts):
+        access = buildout[part]
