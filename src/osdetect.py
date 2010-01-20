@@ -30,4 +30,8 @@ def osdetect(buildout):
             buildout._raw[part] = buildout._raw[key].copy()
 
     for part in list(parts):
-        access = buildout[part]
+        try:
+            del buildout._data[part]
+        except KeyError:
+            pass
+        init = buildout[part]
