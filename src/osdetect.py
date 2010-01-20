@@ -28,10 +28,3 @@ def osdetect(buildout):
             if part in buildout._raw:
                 continue
             buildout._raw[part] = buildout._raw[key].copy()
-
-    for part in list(parts):
-        try:
-            del buildout._data[part]
-        except KeyError:
-            pass
-        init = buildout[part]
