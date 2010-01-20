@@ -25,7 +25,7 @@ def osdetect(buildout):
 
     for platform in platforms:
         for part, key in variants.get(platform, []):
-            if part in buildout:
+            if part in buildout._raw:
                 continue
             buildout._raw[part] = buildout._raw[key].copy()
 
