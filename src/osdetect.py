@@ -11,6 +11,8 @@ def osdetect(buildout):
             platforms.insert(0, 'darwin-snowleopard')
             if sys.maxint > 2147483647:
                 platforms.insert(0, 'darwin-snowleopard-64')
+    elif platform.machine() == 'x86_64':
+        platforms.insert(0, 'x86_64')
 
     buildout._logger.debug("Detected these platforms: %s" % ", ".join(platforms))
 
