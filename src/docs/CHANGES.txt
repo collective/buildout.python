@@ -1,6 +1,12 @@
 Changes
 =======
 
+2011-04-07
+----------
+
+* Add patch to fix recursion error crash on python2.6 OS X from
+  http://bugs.python.org/issue9670 (edited to apply with patch -p0).
+  [elro]
 
 2009-11-26
 ----------
