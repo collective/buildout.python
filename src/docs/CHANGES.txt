@@ -1,6 +1,12 @@
 Changes
 =======
 
+2011-05-08
+----------
+
+- Update to Python 2.5.6c1 and 2.6.7rc1 to include security fixes.
+  [hannosch]
+
 2011-04-07
 ----------
 
