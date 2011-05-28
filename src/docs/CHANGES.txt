@@ -1,12 +1,24 @@
 Changes
 =======
 
+2011-05-28
+----------
+
+- Update to Python 2.5.6 final.
+  [hannosch]
+
+
 2011-05-23
 ----------
 
 - Update to Python 2.6.7rc2 to include more security fixes.
   [hannosch]
 
+2011-05-18
+----------
+
+- New PyPy version 1.4.1.
+  [fschulze]
 
 2011-05-08
 ----------
