@@ -1,6 +1,25 @@
 Changes
 =======
 
+2011-06-15
+----------
+
+- Updated pypy to 1.5 (only 64 bit version, there is no release for 32 bit).
+  [fschulze]
+
+- Added pdbtextmate support for Python 3.2.
+  [fschulze]
+
+- Removed Python 3.1.x it doesn't work properly anymore and isn't used much
+  and not supported anymore.
+  [fschulze]
+
+- Update to Python 2.7.2.
+  [fschulze]
+
+- Update to Python 2.6.7 final.
+  [fschulze]
+
 2011-05-28
 ----------
 
