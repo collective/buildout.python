@@ -1,5 +1,6 @@
 def osdetect(buildout):
-    import sys, platform
+    import sys
+    import platform
 
     platforms = ['default']
     if sys.platform == 'darwin':
@@ -11,6 +12,8 @@ def osdetect(buildout):
             platforms.insert(0, 'darwin-snowleopard')
             if sys.maxint > 2147483647:
                 platforms.insert(0, 'darwin-snowleopard-64')
+        elif mac_ver[0].startswith('10.7'):
+            platforms.insert(0, 'darwin-lion')
     elif platform.machine() == 'x86_64':
         platforms.insert(0, 'x86_64')
 
