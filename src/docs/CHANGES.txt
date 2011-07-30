@@ -4,6 +4,9 @@ Changes
 2011-07-30
 ----------
 
+- Update to jpegsrc v8c and set `-arch x86_64` for Lion.
+  [hannosch]
+
 - Update to virtualenv 1.6.4.
   [hannosch]
 
