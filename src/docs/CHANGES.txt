@@ -1,6 +1,12 @@
 Changes
 =======
 
+2011-07-30
+----------
+
+- Changed `MACOSX_DEPLOYMENT_TARGET` to `10.7` for Python 2.4 on Lion.
+  [hannosch]
+
 2011-06-15
 ----------
 
