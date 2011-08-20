@@ -1,6 +1,11 @@
 Changes
 =======
 
+2011-08-20
+----------
+
+- Updated `monkeycmmi` to 0.2 and avoid patch for environment / spaces handling.
+
 2011-07-30
 ----------
 
