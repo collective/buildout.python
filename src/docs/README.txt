@@ -53,11 +53,7 @@ like this:
 
   [buildout]
   extends =
-      src/base.cfg
-      src/readline.cfg
-      src/libjpeg.cfg
-      src/python25.cfg
-      src/links.cfg
+      buildout.cfg
 
   parts =
       ${buildout:base-parts}
