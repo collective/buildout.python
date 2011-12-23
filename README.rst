@@ -27,7 +27,7 @@ If the links.cfg is used, then a script 'install-links' is created in the
 the binaries and scripts in this buildout. You should set the destination for
 those links by creating a 'local.cfg' with the following content and run it
 with 'bin/buildout -c local.cfg' after modifying the 'prefix' setting to your
-needs:
+needs::
 
     [buildout]
     extends = buildout.cfg
@@ -38,18 +38,18 @@ needs:
 The buildout is built in a way that you can easily extend it with your own
 configuration.
 
-Just get a Git clone:
+Just get a Git clone::
 
     git clone git://github.com/collective/buildout.python.git python
 
-And use a custom buildout.cfg like this:
+And use a custom buildout.cfg like this::
 
     [buildout]
     extends = python/src/base.cfg python/src/python27.cfg
     python-buildout-root = ${buildout:directory}/python/src
 
 If you want just one python version but all dependencies, then use something
-like this:
+like this::
 
     [buildout]
     extends =
