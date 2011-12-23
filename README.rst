@@ -29,35 +29,35 @@ those links by creating a 'local.cfg' with the following content and run it
 with 'bin/buildout -c local.cfg' after modifying the 'prefix' setting to your
 needs:
 
-  [buildout]
-  extends = buildout.cfg
-  
-  [install-links]
-  prefix = /path/for/the/links
+    [buildout]
+    extends = buildout.cfg
+
+    [install-links]
+    prefix = /path/for/the/links
 
 The buildout is built in a way that you can easily extend it with your own
 configuration.
 
 Just get a Git clone:
 
-  git clone git://github.com/collective/buildout.python.git python
+    git clone git://github.com/collective/buildout.python.git python
 
 And use a custom buildout.cfg like this:
 
-  [buildout]
-  extends = python/src/base.cfg python/src/python27.cfg
-  python-buildout-root = ${buildout:directory}/python/src
+    [buildout]
+    extends = python/src/base.cfg python/src/python27.cfg
+    python-buildout-root = ${buildout:directory}/python/src
 
 If you want just one python version but all dependencies, then use something
 like this:
 
-  [buildout]
-  extends =
-      buildout.cfg
+    [buildout]
+    extends =
+        buildout.cfg
 
-  parts =
-      ${buildout:base-parts}
-      ${buildout:readline-parts}
-      ${buildout:libjpeg-parts}
-      ${buildout:python25-parts}
-      ${buildout:links-parts}
+    parts =
+        ${buildout:base-parts}
+        ${buildout:readline-parts}
+        ${buildout:libjpeg-parts}
+        ${buildout:python25-parts}
+        ${buildout:links-parts}
