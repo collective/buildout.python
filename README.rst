@@ -10,12 +10,12 @@ what this buildout was initially created for.
 Installation
 ------------
 
-See INSTALL.txt
+See docs/INSTALL.txt
 
 Upgrade
 -------
 
-See UPGRADE.txt
+See docs/UPGRADE.txt
 
 Advanced Usage
 --------------
@@ -35,18 +35,18 @@ needs:
   [install-links]
   prefix = /path/for/the/links
 
-The buildout is built in a way that you can easily use it as an svn external
-with your own configuration.
+The buildout is built in a way that you can easily extend it with your own
+configuration.
 
-Just set your svn:externals to something like this:
+Just get a Git clone:
 
-  src http://svn.plone.org/svn/collective/buildout/python/src
+  git clone git://github.com/collective/buildout.python.git python
 
 And use a custom buildout.cfg like this:
 
   [buildout]
-  extends = src/base.cfg src/python24.cfg
-  python-buildout-root = ${buildout:directory}/src
+  extends = python/src/base.cfg python/src/python27.cfg
+  python-buildout-root = ${buildout:directory}/python/src
 
 If you want just one python version but all dependencies, then use something
 like this:
