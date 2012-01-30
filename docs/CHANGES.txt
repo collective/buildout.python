@@ -1,6 +1,12 @@
 Changes
 =======
 
+2012-01-29
+----------
+
+- Fixed link to zlib 1.2.5 source that broke after release of zlib 1.2.6.
+  [lukebrannon]
+
 2011-12-22
 ----------
 
