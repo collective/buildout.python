@@ -1,6 +1,14 @@
 Changes
 =======
 
+2012-02-01
+----------
+
+- Put URL where to find the PIL distribution in a variable making it easier for
+  one to override it in a custom buildout. Useful in environments that can't 
+  access the internet and have to use an internal PyPI mirror.
+  [rafaelbco]
+
 2012-01-29
 ----------
 
