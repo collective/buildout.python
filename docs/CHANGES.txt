@@ -1,6 +1,13 @@
 Changes
 =======
 
+2012-02-14
+----------
+
+- Added patch for python 2.5 to search for libs in /usr/lib/i386-linux-gnu/.
+  Fixes bug occurring in Linux Mint 12.
+  [silviot]
+
 2012-01-29
 ----------
 
