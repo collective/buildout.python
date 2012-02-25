@@ -23,7 +23,7 @@ Changes
 2011-11-30
 ----------
 
-- Python 2.6: added patch for missing sslv2 support on newer Linuxes and to 
+- Python 2.6: added patch for missing sslv2 support on newer Linuxes and to
   support Ubuntu/Debian multiarch library paths.
   [joka]
 
