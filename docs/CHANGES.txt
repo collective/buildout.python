@@ -4,6 +4,9 @@ Changes
 2012-03-21
 ----------
 
+- Added `python33.cfg` for Python 3.3.0a1.
+  [hannosch]
+
 - Update to Python 2.6.8rc2, Python 2.7.3rc2 and Python 3.2.3rc2.
   [hannosch]
 
