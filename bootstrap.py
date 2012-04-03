@@ -115,10 +115,10 @@ if 'bootstrap-testing-find-links' in os.environ:
 
 cmd.append('zc.buildout' + VERSION)
 
-print "env: " 
-print env
-print "cmd: "
-print cmd
+#print "env: " 
+#print env
+#print "cmd: "
+#print cmd
 
 if is_jython:
     import subprocess
