@@ -1,4 +1,5 @@
 #!/usr/bin/python
+# -*- coding: utf-8 -*-
 
 ##############################################################################
 #
@@ -25,6 +26,7 @@ $Id$
 import os, shutil, sys, tempfile, urllib2
 from optparse import OptionParser
 
+requirement = 'foule'
 tmpeggs = tempfile.mkdtemp()
 
 is_jython = sys.platform.startswith('java')
@@ -99,9 +101,19 @@ if USE_DISTRIBUTE:
 else:
     requirement = 'setuptools'
 
+print "requirement: "
+print requirement
+requ = pkg_resources.Requirement.parse(requirement)
+print "requ: "
+print requ
+find_result = ws.find( requ )
+print "find_result: "
+print find_result
+
+
 env = dict(os.environ,
            PYTHONPATH=
-           ws.find(pkg_resources.Requirement.parse(requirement)).location
+           find_result.location
            )
 
 cmd = [quote(sys.executable),
