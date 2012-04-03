@@ -115,6 +115,9 @@ if 'bootstrap-testing-find-links' in os.environ:
 
 cmd.append('zc.buildout' + VERSION)
 
+print "env: " + env
+print "cmd: " + cmd
+
 if is_jython:
     import subprocess
     exitcode = subprocess.Popen(cmd, env=env).wait()
