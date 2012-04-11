@@ -53,7 +53,13 @@ like this::
 
     [buildout]
     extends =
-        buildout.cfg
+      src/base.cfg
+      src/readline.cfg
+      src/libjpeg.cfg
+      src/python25.cfg
+      src/links.cfg
+
+    python-buildout-root = ${buildout:directory}/src
 
     parts =
         ${buildout:base-parts}
@@ -61,3 +67,6 @@ like this::
         ${buildout:libjpeg-parts}
         ${buildout:python25-parts}
         ${buildout:links-parts}
+
+The python-buildout-root setting is important, otherwise the whole buildout
+doesn't work.
