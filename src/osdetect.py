@@ -1,6 +1,7 @@
 def osdetect(buildout):
     import sys
     import platform
+    import os
 
     platforms = ['default']
     if sys.platform == 'darwin':
@@ -16,6 +17,9 @@ def osdetect(buildout):
             platforms.insert(0, 'darwin-lion')
     elif platform.machine() == 'x86_64':
         platforms.insert(0, 'x86_64')
+
+    if os.path.exists('/usr/lib/i386-linux-gnu'):
+        platforms.insert(0, 'i386-linux-gnu')
 
     buildout._logger.debug("Detected these platforms: %s" % ", ".join(platforms))
 
