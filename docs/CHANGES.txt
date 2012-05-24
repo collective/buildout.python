@@ -4,6 +4,9 @@ Changes
 2012-10-01
 ----------
 
+- Add more detailed platform detection for linux.
+  [fschulze]
+
 - Use virtualenv 1.8.2 except for Python 2.4, which needs virtualenv 1.7.2.
   [fschulze, sgillies]
 
