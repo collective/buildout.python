@@ -20,6 +20,11 @@ Bootstrap the buildout with the standard system Python like this::
 
   $ /usr/bin/python bootstrap.py
 
+If building Python-2.4 fails on your platform use the alternate
+bootstrap-1.4.4.py file::
+
+  $ /usr/bin/python bootstrap-1.4.4.py
+
 Run buildout like this afterwards::
 
   $ ./bin/buildout
