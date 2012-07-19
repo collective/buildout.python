@@ -4,6 +4,9 @@ Changes
 2012-07-19
 ----------
 
+- Update to virtualenv 1.7.2.
+  [hannosch]
+
 - Update to Python 3.3.0b1.
   [hannosch]
 
