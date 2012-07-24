@@ -4,6 +4,12 @@ Changes
 2012-07-19
 ----------
 
+- Use Pillow by default, the problems caused by the original are too big by now.
+  You can change the install arg with
+  ``pil-install-args = -f http://dist.repoze.org/ -U PIL==1.1.6`` in the
+  ``[buildout]`` section.
+  [fschulze]
+
 - Update to virtualenv 1.7.2.
   [hannosch]
 
