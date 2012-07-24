@@ -4,6 +4,9 @@ Changes
 2012-07-19
 ----------
 
+- Update to PyPy 1.9.
+  [hannosch]
+
 - Use Pillow by default, the problems caused by the original are too big by now.
   You can change the install arg with
   ``pil-install-args = -f http://dist.repoze.org/ -U PIL==1.1.6`` in the
