@@ -14,6 +14,8 @@ def osdetect(buildout):
                 platforms.insert(0, 'darwin-snowleopard-64')
         elif mac_ver[0].startswith('10.7'):
             platforms.insert(0, 'darwin-lion')
+        elif mac_ver[0].startswith('10.8'):
+            platforms.insert(0, 'darwin-mountainlion')
     elif platform.machine() == 'x86_64':
         platforms.insert(0, 'x86_64')
 
