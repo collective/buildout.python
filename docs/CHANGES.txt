@@ -1,6 +1,12 @@
 Changes
 =======
 
+2012-09-30
+----------
+
+- Update to Python 3.3.0 final.
+  [hannosch]
+
 2012-09-24
 ----------
 
