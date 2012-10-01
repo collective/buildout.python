@@ -72,6 +72,13 @@ Changes
   and Python 3.2.3rc1.
   [hannosch]
 
+2012-02-14
+----------
+
+- Added patch for python 2.5 to search for libs in /usr/lib/i386-linux-gnu/.
+  Fixes bug in Linux Mint 12 and Ubuntu 11.10 (and probably elsewhere).
+  [silviot]
+
 2012-01-29
 ----------
 
