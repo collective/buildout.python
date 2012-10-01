@@ -4,6 +4,9 @@ Changes
 2012-10-01
 ----------
 
+- Use virtualenv 1.8.2 except for Python 2.4, which needs virtualenv 1.7.2.
+  [fschulze, sgillies]
+
 - When installing Python 2.4 we need to use zc.recipe.egg 1.2.2.
   [fschulze]
 
