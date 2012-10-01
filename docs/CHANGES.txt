@@ -4,6 +4,9 @@ Changes
 2012-10-01
 ----------
 
+- When installing Python 2.4 we need to use zc.recipe.egg 1.2.2.
+  [fschulze]
+
 - Added patch for python 2.5 to search for libs in /usr/lib/i386-linux-gnu/.
   Fixes bug occurring in Linux Mint 12.
   [silviot, fschulze]
