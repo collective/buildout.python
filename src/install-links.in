@@ -1,20 +1,14 @@
 #!/bin/sh
+mkdir -p ${install-links:prefix}/bin/
+
 # Symlink virtualenv
-for i in $(ls ${buildout:directory}/bin/*2.*); do
-    DEST=${install-links:prefix}/bin/`basename $i`;
-    ln -vis $i $DEST;
-done
-for i in $(ls ${buildout:directory}/bin/*3.*); do
+for i in $(ls ${buildout:directory}/bin/*[23].*); do
     DEST=${install-links:prefix}/bin/`basename $i`;
     ln -vis $i $DEST;
 done
 
 # Symlink python, easy_install
-for i in $(ls ${buildout:directory}/python-2.*/bin/*2.*); do
-    DEST=${install-links:prefix}/bin/`basename $i`;
-    ln -vis $i $DEST;
-done
-for i in $(ls ${buildout:directory}/python-3.*/bin/*3.*); do
+for i in $(ls ${buildout:directory}/python-[23].*/bin/*[23].*); do
     DEST=${install-links:prefix}/bin/`basename $i`;
     ln -vis $i $DEST;
 done
