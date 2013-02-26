@@ -14,6 +14,12 @@ Changes
   Pillow 2.x supports only python >= 2.6
   [jone]
 
+2013-02-26
+----------
+
+- Use collective.recipe.cmmi which is a proper release of monkeycmmi.
+  [fschulze]
+
 2013-01-08
 ----------
 
