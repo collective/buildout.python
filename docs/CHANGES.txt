@@ -20,6 +20,9 @@ Changes
 - Use collective.recipe.cmmi which is a proper release of monkeycmmi.
   [fschulze]
 
+- Pin zc.buildout to 1.4.4 to prevent parts/buildout/site.py issues.
+  [fschulze]
+
 2013-01-08
 ----------
 
