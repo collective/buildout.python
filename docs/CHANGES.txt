@@ -1,6 +1,13 @@
 Changes
 =======
 
+2013-03-16
+----------
+
+- Pin down Pillow to 1.x for python 2.4 and 2.5.
+  Pillow 2.x supports only python >= 2.6
+  [jone]
+
 2013-01-08
 ----------
 
