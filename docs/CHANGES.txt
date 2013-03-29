@@ -1,6 +1,12 @@
 Changes
 =======
 
+2013-03-29
+----------
+
+- Update virtualenv to 1.9.1.
+  [fschulze]
+
 2013-03-26
 ----------
 
