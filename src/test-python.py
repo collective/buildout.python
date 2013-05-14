@@ -10,3 +10,8 @@ def test(options, buildout):
         output = Popen([python, "-c", "import platform; print (platform.mac_ver())"], stdout=PIPE).communicate()[0]
         if not output.startswith("('10."):
             raise IOError("Your python at %s doesn't return proper data for platform.mac_ver(), got: %s" % (python, output))
+
+    p = Popen([python, "-c", "getattr(__builtins__, 'unichr', chr)(120144)"])
+    p.communicate()
+    if p.returncode != 0:
+        raise IOError("Your Python isn't compiled with wide character support")
