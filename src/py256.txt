@@ -1,3 +1,4 @@
+#Fix issue with i386 libraries not able to be found
 diff -u setup.py setup.py
 --- setup.py	2012-02-14 17:54:53.441827578 +0100
 +++ setup.py	2012-02-14 17:55:34.414030770 +0100
@@ -6,7 +7,82 @@ diff -u setup.py setup.py
          # be assumed that no additional -I,-L directives are needed.
          lib_dirs = self.compiler.library_dirs + [
 -            '/lib64', '/usr/lib64',
-+            '/lib64', '/usr/lib64', '/usr/lib/i386-linux-gnu',
++            '/lib64', '/usr/lib64', '/usr/lib/i386-linux-gnu', '/usr/lib/x86_64-linux-gnu',
              '/lib', '/usr/lib',
              ]
          inc_dirs = self.compiler.include_dirs + ['/usr/include']
+
+#Fix issue if sqlite isn't installed.
+--- setup.py	2008-10-17 04:58:19.000000000 +1000
++++ setup.py	2013-08-14 16:26:07.919790535 +1000
+@@ -807,7 +807,7 @@
+             ]
+             sqlite_libfile = self.compiler.find_library_file(
+                                 sqlite_dirs_to_check + lib_dirs, 'sqlite3')
+-            sqlite_libdir = [os.path.abspath(os.path.dirname(sqlite_libfile))]
++            sqlite_libdir = sqlite_libfile and [os.path.abspath(os.path.dirname(sqlite_libfile))]
+ 
+         if sqlite_incdir and sqlite_libdir:
+             sqlite_srcs = ['_sqlite/cache.c',
+
+#Fix issue with Subversion > 1.7 and Python compilation.
+# backport from http://hg.python.org/cpython/rev/150986ab3db2/
+# support building with subversion 1.7 #6094
+diff --git Makefile.pre.in Makefile.pre.in
+--- Makefile.pre.in
++++ Makefile.pre.in
+@@ -458,7 +458,7 @@ Modules/getbuildinfo.o: $(PARSER_OBJS) \
+ 		$(SIGNAL_OBJS) \
+ 		$(MODOBJS) \
+ 		$(srcdir)/Modules/getbuildinfo.c
+-	$(CC) -c $(PY_CFLAGS) -DSVNVERSION=\"`LC_ALL=C $(SVNVERSION)`\" -o $@ $(srcdir)/Modules/getbuildinfo.c
++	$(CC) -c $(PY_CFLAGS) -DSVNVERSION="\"`LC_ALL=C $(SVNVERSION)`\"" -o $@ $(srcdir)/Modules/getbuildinfo.c
+
+ Modules/getpath.o: $(srcdir)/Modules/getpath.c Makefile
+ 	$(CC) -c $(PY_CFLAGS) -DPYTHONPATH='"$(PYTHONPATH)"' \
+diff --git Modules/getbuildinfo.c Modules/getbuildinfo.c
+--- Modules/getbuildinfo.c
++++ Modules/getbuildinfo.c
+@@ -48,5 +48,5 @@ const char *
+ 	static const char svnversion[] = SVNVERSION;
+ 	if (svnversion[0] != '$')
+ 		return svnversion; /* it was interpolated, or passed on command line */
+-	return "exported";
++	return "Unversioned directory";
+ }
+diff --git Python/sysmodule.c Python/sysmodule.c
+--- Python/sysmodule.c
++++ Python/sysmodule.c
+@@ -1016,7 +1016,7 @@ svnversion_init(void)
+
+
+ 	svnversion = _Py_svnversion();
+-	if (strcmp(svnversion, "exported") != 0)
++	if (strcmp(svnversion, "Unversioned directory") != 0 && strcmp(svnversion, "exported") != 0)
+ 		svn_revision = svnversion;
+ 	else if (istag) {
+ 		len = strlen(_patchlevel_revision);
+diff --git configure configure
+--- configure
++++ configure
+@@ -4244,7 +4244,7 @@ if test $SVNVERSION = found
+ then
+ 	SVNVERSION="svnversion \$(srcdir)"
+ else
+-	SVNVERSION="echo exported"
++	SVNVERSION="echo Unversioned directory"
+ fi
+
+ case $MACHDEP in
+diff --git configure.in configure.in
+--- configure.in
++++ configure.in
+@@ -692,7 +692,7 @@ if test $SVNVERSION = found
+ then
+ 	SVNVERSION="svnversion \$(srcdir)"
+ else
+-	SVNVERSION="echo exported"
++	SVNVERSION="echo Unversioned directory"
+ fi
+
+ case $MACHDEP in

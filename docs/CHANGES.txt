@@ -5,7 +5,13 @@ Changes
 ----------
 
 - Update Virtualenv to 1.10.1 for Python > 2.5 and Virtualenv to 1.9.1 for
-  Python 2.5.
+  Python 2.5 (last compatible version).
+  [davidjb]
+- Fix issue compiling Python 2.5 on x86_64 systems.
+  [davidjb]
+- Fix issue compiling Python 2.5 for Subversion >= 1.7.
+  [davidjb]
+- Fix issue compiling Python 2.5 if sqlite can't be found.
   [davidjb]
 
 2013-07-16
