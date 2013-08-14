@@ -1,6 +1,13 @@
 Changes
 =======
 
+2013-08-14
+----------
+
+- Update Virtualenv to 1.10.1 for Python > 2.5 and Virtualenv to 1.9.1 for
+  Python 2.5.
+  [davidjb]
+
 2013-07-16
 ----------
 
