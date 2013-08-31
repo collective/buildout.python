@@ -1,6 +1,16 @@
 Changes
 =======
 
+2013-08-31
+----------
+
+- Update to PyPy 2.1.
+  [fschulze]
+
+- Added pypy3.cfg.
+  [fschulze]
+
+
 2013-08-26
 ----------
 
