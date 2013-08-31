@@ -1,6 +1,19 @@
 Changes
 =======
 
+2013-08-26
+----------
+
+- For Python 2.7, set LD_RUN_PATH and C_INCLUDE_PATH prior to
+  easy_install of Pillow in virtualenv; recent Pillow build may obey
+  this to link against local zlib and libjpeg on some platforms
+  (notably, Linux ld.so), using "rpath" hard-coded in built _imaging.so.
+  [seanupton]
+- Include --always-unzip flag for easy_install of Pillow to avoid
+  installation in ~/.python-eggs directory.
+  [seanupton]
+
+
 2013-08-14
 ----------
 
