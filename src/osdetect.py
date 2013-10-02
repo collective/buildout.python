@@ -38,8 +38,8 @@ def osdetect(buildout):
         variants.setdefault(variant, []).append((part, key))
         parts.add(part)
 
-    for platform in platforms:
-        for part, key in variants.get(platform, []):
+    for platform_name in platforms:
+        for part, key in variants.get(platform_name, []):
             if part in buildout._raw:
                 continue
             buildout._raw[part] = buildout._raw[key].copy()
