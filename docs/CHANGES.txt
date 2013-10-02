@@ -1,6 +1,13 @@
 Changes
 =======
 
+2013-10-02
+----------
+
+- Use collective.recipe.cmmi which allows multiple patches.
+  [fschulze]
+
+
 2013-10-01
 ----------
 
