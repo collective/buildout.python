@@ -1,6 +1,14 @@
 Changes
 =======
 
+2013-10-05
+----------
+
+- Added `python34.cfg` for Python 3.4.0a3. Only the build part is active,
+  virtualenv 1.10.1 doesn't work with Python 3.4 yet.
+  [fschulze]
+
+
 2013-10-02
 ----------
 
