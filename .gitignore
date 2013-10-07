@@ -16,3 +16,4 @@ python-3.4
 bin
 opt
 *.pyc
+setuptools*.tar.gz
