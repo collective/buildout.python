@@ -4,6 +4,9 @@ Changes
 2013-10-10
 ----------
 
+- Added Python 3.4 to default buildout.cfg.
+  [fschulze]
+
 - Use pyvenv for Python 3.4.
   [fschulze]
 
