@@ -50,6 +50,7 @@ for src, name in links:
     if os.path.lexists(dst):
         if os.path.islink(dst):
             if os.readlink(dst) == src:
+                print "No change needed for symlink to '%s' at '%s'." % (src, dst)
                 continue
             else:
                 if not yesno("Replace symlink at '%s' pointing to '%s' with symlink to '%s'?" % (dst, os.readlink(dst), src)):
