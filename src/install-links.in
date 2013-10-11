@@ -33,6 +33,7 @@ files.extend(glob.glob(os.path.join(buildout, 'bin', 'virtualenv-*')))
 files.extend(glob.glob(os.path.join(buildout, 'python-*', 'bin', 'python-*')))
 files.extend(glob.glob(os.path.join(buildout, 'python-*', 'bin', 'easy_install-*')))
 files.extend(glob.glob(os.path.join(buildout, 'python-*', 'bin', 'pip-*')))
+files.extend(glob.glob(os.path.join(buildout, 'parts', 'opt', 'bin', 'pyvenv-*')))
 files.sort()
 links = [(x, os.path.basename(x)) for x in files]
 links.append((os.path.join(buildout, 'pypy', 'bin', 'pypy'), 'pypy'))
