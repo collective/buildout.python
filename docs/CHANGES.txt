@@ -1,6 +1,14 @@
 Changes
 =======
 
+2013-10-11
+----------
+
+- Replace install-links shell script with a more sophisticated Python one which
+  also properly handles pypy.
+  [fschulze, mauritsvanrees]
+
+
 2013-10-10
 ----------
 

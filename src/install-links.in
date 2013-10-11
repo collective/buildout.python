@@ -1,14 +1,61 @@
-#!/bin/sh
-mkdir -p ${install-links:prefix}/bin/
+#!/usr/bin/env python
+import glob
+import os
 
-# Symlink virtualenv
-for i in $(ls ${buildout:directory}/bin/*[23].*); do
-    DEST=${install-links:prefix}/bin/`basename $i`;
-    ln -vis $i $DEST;
-done
 
-# Symlink python, easy_install
-for i in $(ls ${buildout:directory}/python-[23].*/bin/*[23].*); do
-    DEST=${install-links:prefix}/bin/`basename $i`;
-    ln -vis $i $DEST;
-done
+def yesno(question):
+    question = "%s [yes/No] " % question
+    answers = {
+        False: ('', 'n', 'no'),
+        True: ('y', 'yes'),
+    }
+    while 1:
+        answer = raw_input(question).lower()
+        for option in answers:
+            if answer in answers[option]:
+                return option
+        print >>sys.stderr, "You have to answer with y, yes, n or no."
+
+
+buildout = "${buildout:directory}"
+prefix = "${install-links:prefix}"
+bindir = os.path.join(prefix, 'bin')
+
+
+if not os.path.exists(bindir):
+    if not yesno("Create directory '%s'?" % bindir):
+        sys.exit(1)
+    os.makedirs(bindir)
+
+
+files = []
+files.extend(glob.glob(os.path.join(buildout, 'bin', 'virtualenv-*')))
+files.extend(glob.glob(os.path.join(buildout, 'python-*', 'bin', 'python-*')))
+files.extend(glob.glob(os.path.join(buildout, 'python-*', 'bin', 'easy_install-*')))
+files.extend(glob.glob(os.path.join(buildout, 'python-*', 'bin', 'pip-*')))
+files.sort()
+links = [(x, os.path.basename(x)) for x in files]
+links.append((os.path.join(buildout, 'pypy', 'bin', 'pypy'), 'pypy'))
+links.append((os.path.join(buildout, 'pypy', 'bin', 'easy_install'), 'easy_install-pypy'))
+links.append((os.path.join(buildout, 'pypy', 'bin', 'pip'), 'pip-pypy'))
+links.append((os.path.join(buildout, 'pypy3', 'bin', 'pypy'), 'pypy3'))
+links.append((os.path.join(buildout, 'pypy3', 'bin', 'easy_install'), 'easy_install-pypy3'))
+links.append((os.path.join(buildout, 'pypy3', 'bin', 'pip'), 'pip-pypy3'))
+for src, name in links:
+    if not os.path.exists(src):
+        continue
+    dst = os.path.join(bindir, name)
+    if os.path.lexists(dst):
+        if os.path.islink(dst):
+            if os.readlink(dst) == src:
+                continue
+            else:
+                if not yesno("Replace symlink at '%s' pointing to '%s' with symlink to '%s'?" % (dst, os.readlink(dst), src)):
+                    continue
+                os.unlink(dst)
+        else:
+            if not yesno("Replace regular file '%s' with symlink to '%s'?" % (dst, src)):
+                continue
+            os.unlink(dst)
+    os.symlink(src, dst)
+    print "Created symlink to '%s' at '%s'." % (src, dst)
