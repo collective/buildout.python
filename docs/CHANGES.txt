@@ -1,6 +1,13 @@
 Changes
 =======
 
+2013-10-23
+----------
+
+- Introduce a new `darwin-mavericks` platform and adjust various parts to
+  use the same settings as under `darwin-mountainlion`.
+  [hannosch]
+
 2013-10-11
 ----------
 
