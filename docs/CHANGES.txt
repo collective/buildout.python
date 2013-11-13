@@ -8,6 +8,13 @@ Changes
   [fschulze]
 
 
+2013-11-13
+----------
+
+- Update to Python 2.7.6.
+  [fschulze]
+
+
 2013-10-23
 ----------
 
