@@ -1,6 +1,13 @@
 Changes
 =======
 
+2013-11-22
+----------
+
+- Update to Python 2.3.3 and PyPy 2.2.
+  [fschulze]
+
+
 2013-11-09
 ----------
 
