@@ -1,6 +1,12 @@
 Changes
 =======
 
+2013-11-26
+----------
+
+- Fix Python 2.5 for Mavericks.
+
+
 2013-11-22
 ----------
 
@@ -11,11 +17,10 @@ Changes
   [fschulze]
 
 
-2013-11-09
+2013-11-14
 ----------
 
-- Update to Python 2.6.9.
-  [fschulze]
+- Fix Python 2.4 for Mavericks.
 
 
 2013-11-13
@@ -25,12 +30,20 @@ Changes
   [fschulze]
 
 
+2013-11-09
+----------
+
+- Update to Python 2.6.9.
+  [fschulze]
+
+
 2013-10-23
 ----------
 
 - Introduce a new `darwin-mavericks` platform and adjust various parts to
   use the same settings as under `darwin-mountainlion`.
   [hannosch]
+
 
 2013-10-11
 ----------
