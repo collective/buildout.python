@@ -4,6 +4,9 @@ Changes
 2013-11-26
 ----------
 
+- Update to Python 3.4.0b1.
+  [fschulze]
+
 - Fix Python 2.5 for Mavericks.
 
 
