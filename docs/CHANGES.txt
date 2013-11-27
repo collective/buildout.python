@@ -4,8 +4,8 @@ Changes
 2013-11-26
 ----------
 
-- Fix missing ssl support in Python 2.4 on Ubuntu and possibly other Linux
-  distributions.
+- Fix missing ssl support in Python 2.4 on Debian, Ubuntu and possibly other
+  Linux distributions.
   [nueces, fschulze]
 
 - Update to Python 3.4.0b1.

@@ -7,10 +7,12 @@ Install XCode from the App Store.
 GNU/Linux
 ---------
 
-Install the GNU C (gcc) and C++ (g++) compilers. On Ubuntu GNU/Linux, install
-the build-essential package::
+Install the GNU C (gcc) and C++ (g++) compilers, development libraries for
+libssl, python and curl.
 
-  $ sudo apt-get install build-essential
+On Debian and Ubuntu GNU/Linux, install the following packages::
+
+  $ sudo apt-get install build-essential libssl-dev python curl
 
 
 All Platforms
