@@ -1,6 +1,13 @@
 Changes
 =======
 
+2014-03-13
+----------
+
+- Update to Python 3.3.5 and Python 3.4.0rc3.
+  [fschulze]
+
+
 2014-02-14
 ----------
 
