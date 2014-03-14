@@ -4,6 +4,9 @@ Changes
 2014-03-14
 ----------
 
+- Use ez_setup.py from setuptools 2.2 for all Python versions >= 2.6.
+  [hannosch]
+
 - Update to PyPy 2.2.1.
   [hannosch]
 
