@@ -4,6 +4,9 @@ Changes
 2014-03-14
 ----------
 
+- Update to PyPy 2.2.1.
+  [hannosch]
+
 - Update bundled ez_setup.py to version 1.4.2, last to support Python < 2.6.
   [hannosch]
 
