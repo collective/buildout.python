@@ -1,6 +1,12 @@
 Changes
 =======
 
+2014-03-14
+----------
+
+- Update bundled ez_setup.py to version 1.4.2, last to support Python < 2.6.
+  [hannosch]
+
 2014-03-13
 ----------
 
