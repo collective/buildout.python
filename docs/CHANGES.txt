@@ -1,6 +1,12 @@
 Changes
 =======
 
+2014-03-20
+----------
+
+- Clarify naming of ez_setup.py for 1.x / 2.x versions.
+  [hannosch]
+
 2014-03-17
 ----------
 
