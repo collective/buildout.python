@@ -19,7 +19,7 @@ def yesno(question):
 
 
 buildout = "${buildout:directory}"
-prefix = "${install-links:prefix}"
+prefix = os.path.expanduser("${install-links:prefix}")
 bindir = os.path.join(prefix, 'bin')
 
 

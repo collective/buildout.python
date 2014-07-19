@@ -1,6 +1,12 @@
 Changes
 =======
 
+2014-07-20
+----------
+
+- Expand ~ to user's home in prefix of install-links script.
+  [lgraf]
+
 2014-07-03
 ----------
 
