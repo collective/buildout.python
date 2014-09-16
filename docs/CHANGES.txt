@@ -1,6 +1,12 @@
 Changes
 =======
 
+2014-09-16
+----------
+
+- Upgrade virtualenv to 1.11.6
+  [fschulze]
+
 2014-07-20
 ----------
 
