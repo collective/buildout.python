@@ -4,6 +4,8 @@ Changes
 2014-09-16
 ----------
 
+- Use virtualenv for Python 3.4.
+
 - Upgrade virtualenv to 1.11.6
   [fschulze]
 
