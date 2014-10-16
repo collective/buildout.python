@@ -1,12 +1,18 @@
 Changes
 =======
 
+2014-10-16
+----------
+
+- Update to Python 3.4.2.
+  [hannosch]
+
 2014-09-24
 ----------
 
 - Introduce a new `darwin-yosemite` platform and adjust various parts to
   use the same settings as under `darwin-mavericks`.
-  [hannosch]
+  [mj]
 
 2014-09-21
 ----------
