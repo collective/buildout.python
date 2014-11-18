@@ -1,6 +1,13 @@
 Changes
 =======
 
+2014-11-18
+----------
+
+- Fix install-links script for changed name of pip script. It lost the dash
+  between pip and the version number.
+  [fschulze]
+
 2014-10-16
 ----------
 
