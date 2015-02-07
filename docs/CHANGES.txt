@@ -1,6 +1,12 @@
 Changes
 =======
 
+2015-02-07
+----------
+
+- Updated pypy to 2.5.0 and pypy3 to 2.4.0.
+  [fschulze]
+
 2014-12-12
 ----------
 
