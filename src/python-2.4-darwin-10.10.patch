@@ -1,0 +1,51 @@
+diff -ru Lib/platform.py Lib/platform.py
+--- Lib/platform.py	2006-10-08 18:41:25.000000000 +0100
++++ Lib/platform.py	2015-03-11 21:48:12.000000000 +0000
+@@ -31,6 +31,7 @@
+ #      Colin Kong, Trent Mick, Guido van Rossum
+ #
+ #    History:
++#    ?.?.? - backported _mac_ver_xml() from Python 2.7
+ #    1.0.3 - added normalization of Windows system name
+ #    1.0.2 - added more Windows support
+ #    1.0.1 - reformatted to make doc.py happy
+@@ -556,6 +557,26 @@
+ 
+     return hex(bcd)[2:]
+ 
++def _mac_ver_xml():
++    fn = '/System/Library/CoreServices/SystemVersion.plist'
++    if not os.path.exists(fn):
++        return None
++
++    try:
++        import plistlib
++    except ImportError:
++        return None
++
++    pl = plistlib.readPlist(fn)
++    release = pl['ProductVersion']
++    versioninfo=('', '', '')
++    machine = os.uname()[4]
++    if machine in ('ppc', 'Power Macintosh'):
++        # for compatibility with the gestalt based code
++        machine = 'PowerPC'
++
++    return release,versioninfo,machine
++
+ def mac_ver(release='',versioninfo=('','',''),machine=''):
+ 
+     """ Get MacOS version information and return it as tuple (release,
+@@ -572,6 +593,12 @@
+            http://www.rgaros.nl/gestalt/
+ 
+     """
++    # First try reading the information from an XML file which should
++    # always be present
++    info = _mac_ver_xml()
++    if info is not None:
++        return info
++
+     # Check whether the version info module is available
+     try:
+         import gestalt
