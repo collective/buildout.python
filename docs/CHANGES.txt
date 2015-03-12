@@ -1,6 +1,12 @@
 Changes
 =======
 
+2015-03-12
+----------
+
+- Python2.4: make platform.mac_ver() return '10.10' on Yosemite.
+  [RichardBarrell]
+
 2015-02-09
 ----------
 
