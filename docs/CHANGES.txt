@@ -4,6 +4,9 @@ Changes
 2015-03-12
 ----------
 
+- Virtualenv: do not call with --distribute option.
+  [maurits]
+
 - Python2.4: make platform.mac_ver() return '10.10' on Yosemite.
   [RichardBarrell]
 
