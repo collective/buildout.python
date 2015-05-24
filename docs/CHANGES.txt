@@ -1,6 +1,15 @@
 Changes
 =======
 
+2015-05-24
+----------
+
+- Upgraded Python 2.7 to 2.7.10
+  [mj]
+
+- Upgraded Python 3.5 to 3.5.0a4
+  [mj]
+
 2015-03-12
 ----------
 
