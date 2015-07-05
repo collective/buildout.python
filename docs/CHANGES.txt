@@ -4,6 +4,9 @@ Changes
 2015-07-05
 ----------
 
+- Upgraded pypy to 2.6.0.
+  [hannosch]
+
 - Upgraded Python 3.5 to 3.5.0b2.
   [hannosch]
 
