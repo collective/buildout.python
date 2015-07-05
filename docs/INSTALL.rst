@@ -14,7 +14,7 @@ On Debian and Ubuntu GNU/Linux, install the following packages::
 
   $ sudo apt-get install build-essential libssl-dev python curl
 
-On CentOS / RHEL, install the following:
+On CentOS / RHEL, install the following::
 
   $ sudo yum groupinstall "Development tools"
   $ sudo yum install openssl-devel python curl
