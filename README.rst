@@ -10,12 +10,12 @@ what this buildout was initially created for.
 Installation
 ------------
 
-See ``docs/INSTALL.txt``
+See ``docs/INSTALL.rst``
 
 Upgrade
 -------
 
-See ``docs/UPGRADE.txt``
+See ``docs/UPGRADE.rst``
 
 Advanced Usage
 --------------

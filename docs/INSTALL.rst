@@ -27,10 +27,8 @@ Bootstrap the buildout with the standard system Python like this::
 
   $ /usr/bin/python bootstrap.py
 
-It uses buildout 1.4.4, everything after that is currently unsupported.
-
 Run buildout like this afterwards::
 
   $ ./bin/buildout
 
-Now you can use the Python executables in ``python-2.4/bin/python2.4``, etc.
+Now you can use the Python executables in ``python-2.7/bin/python2.7``, etc.
