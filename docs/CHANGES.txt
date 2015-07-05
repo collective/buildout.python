@@ -1,6 +1,12 @@
 Changes
 =======
 
+2015-07-05
+----------
+
+- Changed Python 2.4, 2.5 and 2.6 downloads to use https.
+  [hannosch]
+
 2015-05-24
 ----------
 
