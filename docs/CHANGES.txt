@@ -4,6 +4,9 @@ Changes
 2015-07-05
 ----------
 
+- Upgraded Python 3 to 3.2.5, 3.3.6 and 3.4.3.
+  [hannosch]
+
 - Changed Python 2.4, 2.5 and 2.6 downloads to use https.
   [hannosch]
 
