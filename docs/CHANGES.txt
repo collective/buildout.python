@@ -4,6 +4,9 @@ Changes
 2015-07-05
 ----------
 
+- Upgraded Python 3.5 to 3.5.0b2.
+  [hannosch]
+
 - Upgraded Python 3 to 3.2.5, 3.3.6 and 3.4.3.
   [hannosch]
 
