@@ -17,7 +17,7 @@ On Debian and Ubuntu GNU/Linux, install the following packages::
 On CentOS / RHEL, install the following::
 
   $ sudo yum groupinstall "Development tools"
-  $ sudo yum install openssl-devel python curl
+  $ sudo yum install openssl-devel python curl bzip2-devel sqlite-devel
 
 
 All Platforms
