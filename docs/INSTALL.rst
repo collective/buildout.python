@@ -12,7 +12,16 @@ libssl, python and curl.
 
 On Debian and Ubuntu GNU/Linux, install the following packages::
 
-  $ sudo apt-get install build-essential libssl-dev python curl
+  $ sudo apt-get install build-essential libssl-dev python curl libbz2-dev
+  libsqlite3-dev
+
+For sqlite support on Python 2.4 install the following package::
+
+  $ sudo apt-get install libsqlite-dev
+
+For lzma compression support on Python 3.x install the following package::
+
+  $ sudo apt-get install liblzma-dev
 
 On CentOS / RHEL, install the following::
 
