@@ -4,6 +4,11 @@ Changes
 2015-10-01
 ----------
 
+- Use latest setuptools for Python 3.3, 3.4 and 3.5.  The old ez_setup
+  and/or setuptools is giving errors.
+  This fixes #51 and refs #40.
+  [maurits]
+
 - Added missing default urls for pypy and pypy3.
   [maurits]
 
