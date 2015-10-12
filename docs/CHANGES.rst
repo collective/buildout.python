@@ -4,6 +4,9 @@ Changes
 2015-10-01
 ----------
 
+- Fixed Python2.4 ssl bindings on El Capitan.
+  [jladage]
+
 - Introduce a new `darwin-elcapitan` platform and adjust various parts to
   use the same settings as under `darwin-yosemite`.
   [hannosch]
