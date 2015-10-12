@@ -4,6 +4,9 @@ Changes
 2015-10-01
 ----------
 
+- Added missing default urls for pypy and pypy3.
+  [maurits]
+
 - Fixed Python2.4 ssl bindings on El Capitan.
   [jladage]
 
