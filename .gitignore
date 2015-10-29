@@ -18,3 +18,4 @@ bin
 opt
 *.pyc
 setuptools*.tar.gz
+setuptools*.zip
