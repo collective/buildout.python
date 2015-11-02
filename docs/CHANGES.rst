@@ -1,6 +1,12 @@
 Changes
 =======
 
+2015-11-02
+----------
+
+- Added a Python 3.5 virtualenv command
+  [mj]
+
 2015-10-01
 ----------
 
