@@ -7,6 +7,9 @@ Changes
 - Update to Python 2.7.11, 3.5.1 and 3.4.4rc1.
   [fschulze]
 
+- Add missing md5sum for older releases.
+  [fschulze]
+
 2015-11-22
 ----------
 
