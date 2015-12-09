@@ -4,6 +4,10 @@ Changes
 2015-12-09
 ----------
 
+- Move Linux specific download URLs for pypy and pypy3 from default to
+  linux2 section.
+  [fschulze]
+
 - Update to Python 2.7.11, 3.5.1 and 3.4.4rc1.
   [fschulze]
 
