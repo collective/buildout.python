@@ -4,6 +4,9 @@ Changes
 2015-12-09
 ----------
 
+- Make pypy and pypy3 work automatically for newer OS X releases.
+  [fschulze]
+
 - Move Linux specific download URLs for pypy and pypy3 from default to
   linux2 section.
   [fschulze]
