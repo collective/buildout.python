@@ -1,6 +1,16 @@
 Changes
 =======
 
+2016-01-16
+----------
+
+- Update to PyPy on Linux to 4.0.1.
+  [fschulze]
+
+- Update to Python 3.4.4.
+  [fschulze]
+
+
 2015-12-09
 ----------
 
@@ -17,11 +27,13 @@ Changes
 - Add missing md5sum for older releases.
   [fschulze]
 
+
 2015-11-22
 ----------
 
 - Update to Python 2.7.11rc1.
   [hannosch]
+
 
 2015-11-20
 ----------
