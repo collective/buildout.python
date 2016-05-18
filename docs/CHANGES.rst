@@ -7,6 +7,9 @@ Changes
 - Add Python 3.6.0a1.
   [fschulze]
 
+- Update to PyPy 5.1.1.
+  [fschulze]
+
 
 2016-04-21
 ----------
