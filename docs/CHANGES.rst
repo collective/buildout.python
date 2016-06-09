@@ -4,6 +4,9 @@ Changes
 2016-05-09
 ----------
 
+- Update to PyPy3 5.2.0-alpha1.
+  [fschulze]
+
 - Update virtualenv to 15.0.2.
   [fschulze]
 
