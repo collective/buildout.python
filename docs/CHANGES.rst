@@ -4,6 +4,9 @@ Changes
 2016-05-09
 ----------
 
+- The virtualenv*.in templates were all the same, use only one.
+  [fschulze]
+
 - Update to PyPy 5.3.0.
   [fschulze]
 
