@@ -4,6 +4,12 @@ Changes
 2016-05-09
 ----------
 
+- Update to jpegsrc v9b.
+  [fschulze]
+
+- Updated readline to 6.3.
+  [fschulze]
+
 - Update to PyPy3 5.2.0-alpha1.
   [fschulze]
 
