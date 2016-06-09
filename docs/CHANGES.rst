@@ -4,6 +4,15 @@ Changes
 2016-05-09
 ----------
 
+- Update virtualenv to 15.0.2.
+  [fschulze]
+
+- Add virtualenv version pin for Python 3.2.
+  [fschulze]
+
+- Move pinned virtualenv settings to respective python*.cfg.
+  [fschulze]
+
 - The virtualenv*.in templates were all the same, use only one.
   [fschulze]
 
