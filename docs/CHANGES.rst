@@ -1,7 +1,7 @@
 Changes
 =======
 
-2016-05-09
+2016-06-09
 ----------
 
 - Update to jpegsrc v9b.
