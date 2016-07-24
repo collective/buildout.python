@@ -1,6 +1,12 @@
 Changes
 =======
 
+2016-07-24
+----------
+
+- Add macOS Sierra (10.12) support.
+  [aclark4life]
+
 2016-06-28
 ----------
 
