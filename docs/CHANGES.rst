@@ -1,17 +1,29 @@
 Changes
 =======
 
+2016-10-18
+----------
+
+- Update to 3.6.0b2.
+  [fschulze]
+
+- Update to PyPy3 5.5.0-alpha.
+  [fschulze]
+
+
 2016-08-16
 ----------
 
 - Update to 3.6.0b1.
   [mj]
 
+
 2016-07-24
 ----------
 
 - Add macOS Sierra (10.12) support.
   [aclark4life]
+
 
 2016-06-28
 ----------
