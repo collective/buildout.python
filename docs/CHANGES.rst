@@ -1,6 +1,13 @@
 Changes
 =======
 
+2016-11-27
+----------
+
+- Add `--enable-optimizations` configure flag.
+  [hannosch]
+
+
 2016-11-22
 ----------
 

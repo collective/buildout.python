@@ -7,6 +7,10 @@ various Python versions with or without the necessary dependencies.
 The default ``buildout.cfg`` configuration is for Mac OS X Leopard, because that's
 what this buildout was initially created for.
 
+The default configuration is optimized for production builds, trading in
+an increase in build time for a faster Python executable. See the
+compilation options sections below on how to change this.
+
 Installation
 ------------
 
@@ -70,3 +74,21 @@ like this::
 
 The ``python-buildout-root`` setting is important, otherwise the whole buildout
 doesn't work.
+
+Compilation Options
+-------------------
+
+If you want to adjust the configuration or compilation options for
+a Python variant, you can do so via your `local.cfg`.
+
+If you are installing Python 3.6, you could for example turn off compile
+time optimizations via the ``extra_options -=``. Or if you are on a newer
+version of Mac OS, you could link against an OpenSSL library installed
+via Homebrew, via the ``environment`` section::
+
+    [python-3.6-build:default]
+    extra_options -=
+        --enable-optimizations
+    environment =
+        LDFLAGS=-L/usr/local/opt/openssl/lib
+        CPPFLAGS=-I/usr/local/opt/openssl/include
