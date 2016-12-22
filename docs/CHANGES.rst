@@ -1,6 +1,18 @@
 Changes
 =======
 
+2016-12-22
+----------
+
+- Update to 2.7.13. Had to remove the `--enable-optimizations` flag for
+  El Capitan (OS X 10.11), as C extension modules like _struct failed to build.
+  Didn't test on Sierra (macOS 10.12) or older, where it is still enabled.
+  [fschulze]
+
+- Update to 3.6.0rc2.
+  [fschulze]
+
+
 2016-12-07
 ----------
 
