@@ -7,6 +7,10 @@ Changes
 - Update to 3.6.0 final
   [mj]
 
+- Disable `--enable-optimizations` flag for Python 2.7.13 until builds work on
+  OS X.
+  [mj]
+
 2016-12-22
 ----------
 
