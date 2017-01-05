@@ -4,6 +4,9 @@ Changes
 2017-01-05
 ----------
 
+- Update to 3.4.6rc1 and 3.5.3rc1.
+  [fschulze]
+
 - Pin Pillow to <4 for Python 2.6.
   [fschulze]
 
