@@ -1,6 +1,13 @@
 Changes
 =======
 
+2017-01-05
+----------
+
+- Pin Pillow to <4 for Python 2.6.
+  [fschulze]
+
+
 2016-12-23
 ----------
 
@@ -10,6 +17,7 @@ Changes
 - Disable `--enable-optimizations` flag for Python 2.7.13 until builds work on
   OS X.
   [mj]
+
 
 2016-12-22
 ----------
