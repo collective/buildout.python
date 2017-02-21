@@ -1,6 +1,12 @@
 Changes
 =======
 
+2017-02-21
+----------
+
+- Update ez_setup-latest.py from 18.4 to 33.1.1 and use it for Python 2.7.
+  [hannosch]
+
 2017-01-17
 ----------
 
