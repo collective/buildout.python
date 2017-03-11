@@ -1,6 +1,13 @@
 Changes
 =======
 
+2017-03-01
+----------
+
+- Downgrade readline from 6.3 to 6.2.
+  [Joerg Baach]
+
+
 2017-02-21
 ----------
 
