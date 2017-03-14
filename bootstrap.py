@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf-8 -*-
+
 ##############################################################################
 #
 # Copyright (c) 2006 Zope Corporation and Contributors.
@@ -23,6 +26,7 @@ $Id$
 import os, shutil, sys, tempfile, urllib2
 from optparse import OptionParser
 
+requirement = 'foule'
 tmpeggs = tempfile.mkdtemp()
 
 is_jython = sys.platform.startswith('java')
@@ -97,9 +101,19 @@ if USE_DISTRIBUTE:
 else:
     requirement = 'setuptools'
 
+print "requirement: "
+print requirement
+requ = pkg_resources.Requirement.parse(requirement)
+print "requ: "
+print requ
+find_result = ws.find( requ )
+print "find_result: "
+print find_result
+
+
 env = dict(os.environ,
            PYTHONPATH=
-           ws.find(pkg_resources.Requirement.parse(requirement)).location
+           find_result.location
            )
 
 cmd = [quote(sys.executable),
@@ -112,6 +126,11 @@ if 'bootstrap-testing-find-links' in os.environ:
     cmd.extend(['-f', os.environ['bootstrap-testing-find-links']])
 
 cmd.append('zc.buildout' + VERSION)
+
+#print "env: " 
+#print env
+#print "cmd: "
+#print cmd
 
 if is_jython:
     import subprocess
