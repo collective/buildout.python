@@ -4,6 +4,9 @@ Changes
 2017-03-23
 ----------
 
+- Update pypy to 5.7.0.
+  [fschulze]
+
 - Update to 3.6.1.
   [hannosch]
 
