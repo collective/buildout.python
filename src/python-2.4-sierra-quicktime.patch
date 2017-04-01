@@ -1,0 +1,112 @@
+diff -ru Python-2.4.6/Include/pymactoolbox.h Python-2.4.6-patched/Include/pymactoolbox.h
+--- Include/pymactoolbox.h	2004-11-05 08:02:59.000000000 +0100
++++ Include/pymactoolbox.h	2017-04-01 12:24:18.000000000 +0200
+@@ -8,7 +8,7 @@
+ #endif
+ 
+ #include <Carbon/Carbon.h>
+-#include <QuickTime/QuickTime.h>
++/*#include <QuickTime/QuickTime.h>*/
+ 
+ /*
+ ** Helper routines for error codes and such.
+@@ -18,7 +18,7 @@
+ PyObject *PyMac_GetOSErrException(void);	/* Initialize & return it */
+ PyObject *PyErr_Mac(PyObject *, int);		/* Exception with a mac error */
+ PyObject *PyMac_Error(OSErr);			/* Uses PyMac_GetOSErrException */
+-extern OSErr PyMac_GetFullPathname(FSSpec *, char *, int); /* convert
++/*extern OSErr PyMac_GetFullPathname(FSSpec *, char *, int); /* convert
+ 							      fsspec->path */
+ /*
+ ** These conversion routines are defined in mactoolboxglue.c itself.
+@@ -101,37 +101,37 @@
+ extern int CmpInstObj_Convert(PyObject *, ComponentInstance *);
+ 
+ /* Ctl exports */
+-extern PyObject *CtlObj_New(ControlHandle);
+-extern int CtlObj_Convert(PyObject *, ControlHandle *);
++/*extern PyObject *CtlObj_New(ControlHandle);
++extern int CtlObj_Convert(PyObject *, ControlHandle *);*/
+ 
+ /* Dlg exports */
+-extern PyObject *DlgObj_New(DialogPtr);
++/*extern PyObject *DlgObj_New(DialogPtr);
+ extern int DlgObj_Convert(PyObject *, DialogPtr *);
+-extern PyObject *DlgObj_WhichDialog(DialogPtr);
++extern PyObject *DlgObj_WhichDialog(DialogPtr);*/
+ 
+ /* Drag exports */
+-extern PyObject *DragObj_New(DragReference);
+-extern int DragObj_Convert(PyObject *, DragReference *);
++/*extern PyObject *DragObj_New(DragReference);
++extern int DragObj_Convert(PyObject *, DragReference *);*/
+ 
+ /* List exports */
+-extern PyObject *ListObj_New(ListHandle);
+-extern int ListObj_Convert(PyObject *, ListHandle *);
++/*extern PyObject *ListObj_New(ListHandle);
++extern int ListObj_Convert(PyObject *, ListHandle *);*/
+ 
+ /* Menu exports */
+-extern PyObject *MenuObj_New(MenuHandle);
+-extern int MenuObj_Convert(PyObject *, MenuHandle *);
++/*extern PyObject *MenuObj_New(MenuHandle);
++extern int MenuObj_Convert(PyObject *, MenuHandle *);*/
+ 
+ /* Qd exports */
+-extern PyObject *GrafObj_New(GrafPtr);
++/*extern PyObject *GrafObj_New(GrafPtr);
+ extern int GrafObj_Convert(PyObject *, GrafPtr *);
+ extern PyObject *BMObj_New(BitMapPtr);
+ extern int BMObj_Convert(PyObject *, BitMapPtr *);
+ extern PyObject *QdRGB_New(RGBColor *);
+-extern int QdRGB_Convert(PyObject *, RGBColor *);
++extern int QdRGB_Convert(PyObject *, RGBColor *);*/
+ 
+ /* Qdoffs exports */
+-extern PyObject *GWorldObj_New(GWorldPtr);
+-extern int GWorldObj_Convert(PyObject *, GWorldPtr *);
++/*extern PyObject *GWorldObj_New(GWorldPtr);
++extern int GWorldObj_Convert(PyObject *, GWorldPtr *);*/
+ 
+ /* Qt exports */
+ extern PyObject *TrackObj_New(Track);
+@@ -154,13 +154,13 @@
+ extern int OptResObj_Convert(PyObject *, Handle *);
+ 
+ /* TE exports */
+-extern PyObject *TEObj_New(TEHandle);
+-extern int TEObj_Convert(PyObject *, TEHandle *);
++/*extern PyObject *TEObj_New(TEHandle);
++extern int TEObj_Convert(PyObject *, TEHandle *);*/
+ 
+ /* Win exports */
+-extern PyObject *WinObj_New(WindowPtr);
++/*extern PyObject *WinObj_New(WindowPtr);
+ extern int WinObj_Convert(PyObject *, WindowPtr *);
+-extern PyObject *WinObj_WhichWindow(WindowPtr);
++extern PyObject *WinObj_WhichWindow(WindowPtr);*/
+ 
+ /* CF exports */
+ extern PyObject *CFObj_New(CFTypeRef);
+diff -ru Python-2.4.6/Python/mactoolboxglue.c Python-2.4.6-patched/Python/mactoolboxglue.c
+--- Python/mactoolboxglue.c	2006-10-08 19:41:25.000000000 +0200
++++ Python/mactoolboxglue.c	2017-04-01 12:18:36.000000000 +0200
+@@ -104,7 +104,7 @@
+ }
+ 
+ 
+-OSErr
++/*OSErr
+ PyMac_GetFullPathname(FSSpec *fss, char *path, int len)
+ {
+ 	PyObject *fs, *exc;
+@@ -150,7 +150,7 @@
+ 	Py_XDECREF(rv);
+ 	Py_XDECREF(fs);
+ 	return err;
+-}
++}*/
+ 
+ /* Convert a 4-char string object argument to an OSType value */
+ int
