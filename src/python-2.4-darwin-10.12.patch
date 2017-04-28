@@ -1,0 +1,966 @@
+diff --git a/Include/pymactoolbox.h b/Include/pymactoolbox.h
+index 1a21985..d776b37 100644
+--- Include/pymactoolbox.h
++++ Include/pymactoolbox.h
+@@ -8,7 +8,25 @@
+ #endif
+ 
+ #include <Carbon/Carbon.h>
++
++/*
++** Workaround for gcc 4.2 on OS X 10.5 and 10.6, which don't have __has_include defined.
++*/
++#ifndef __has_include
++#define __has_include(x) 0
++#endif
++/* Workaround */
++
++#if __has_include(<Availability.h>)
++#include <Availability.h>
++#define APPLE_SUPPORTS_QUICKTIME (__MAC_OS_X_VERSION_MAX_ALLOWED < 101200)
++#else
++#define APPLE_SUPPORTS_QUICKTIME
++#endif
++
++#if APPLE_SUPPORTS_QUICKTIME
+ #include <QuickTime/QuickTime.h>
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /*
+ ** Helper routines for error codes and such.
+@@ -18,8 +36,10 @@ extern PyObject *PyMac_OSErrException;		/* Exception for OSErr */
+ PyObject *PyMac_GetOSErrException(void);	/* Initialize & return it */
+ PyObject *PyErr_Mac(PyObject *, int);		/* Exception with a mac error */
+ PyObject *PyMac_Error(OSErr);			/* Uses PyMac_GetOSErrException */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern OSErr PyMac_GetFullPathname(FSSpec *, char *, int); /* convert
+ 							      fsspec->path */
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ /*
+ ** These conversion routines are defined in mactoolboxglue.c itself.
+ */
+@@ -101,40 +121,54 @@ extern PyObject *CmpInstObj_New(ComponentInstance);
+ extern int CmpInstObj_Convert(PyObject *, ComponentInstance *);
+ 
+ /* Ctl exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *CtlObj_New(ControlHandle);
+ extern int CtlObj_Convert(PyObject *, ControlHandle *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Dlg exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *DlgObj_New(DialogPtr);
+ extern int DlgObj_Convert(PyObject *, DialogPtr *);
+ extern PyObject *DlgObj_WhichDialog(DialogPtr);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Drag exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *DragObj_New(DragReference);
+ extern int DragObj_Convert(PyObject *, DragReference *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* List exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *ListObj_New(ListHandle);
+ extern int ListObj_Convert(PyObject *, ListHandle *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Menu exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *MenuObj_New(MenuHandle);
+ extern int MenuObj_Convert(PyObject *, MenuHandle *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Qd exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *GrafObj_New(GrafPtr);
+ extern int GrafObj_Convert(PyObject *, GrafPtr *);
+ extern PyObject *BMObj_New(BitMapPtr);
+ extern int BMObj_Convert(PyObject *, BitMapPtr *);
+ extern PyObject *QdRGB_New(RGBColor *);
+ extern int QdRGB_Convert(PyObject *, RGBColor *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Qdoffs exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *GWorldObj_New(GWorldPtr);
+ extern int GWorldObj_Convert(PyObject *, GWorldPtr *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Qt exports */
+-/*
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *TrackObj_New(Track);
+ extern int TrackObj_Convert(PyObject *, Track *);
+ extern PyObject *MovieObj_New(Movie);
+@@ -147,7 +181,7 @@ extern PyObject *UserDataObj_New(UserData);
+ extern int UserDataObj_Convert(PyObject *, UserData *);
+ extern PyObject *MediaObj_New(Media);
+ extern int MediaObj_Convert(PyObject *, Media *);
+-*/
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Res exports */
+ extern PyObject *ResObj_New(Handle);
+@@ -156,13 +190,17 @@ extern PyObject *OptResObj_New(Handle);
+ extern int OptResObj_Convert(PyObject *, Handle *);
+ 
+ /* TE exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *TEObj_New(TEHandle);
+ extern int TEObj_Convert(PyObject *, TEHandle *);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Win exports */
++#if APPLE_SUPPORTS_QUICKTIME
+ extern PyObject *WinObj_New(WindowPtr);
+ extern int WinObj_Convert(PyObject *, WindowPtr *);
+ extern PyObject *WinObj_WhichWindow(WindowPtr);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* CF exports */
+ extern PyObject *CFObj_New(CFTypeRef);
+diff --git a/Mac/Modules/ColorPickermodule.c b/Mac/Modules/ColorPickermodule.c
+index 62b4d5f..ad588ce 100644
+--- Mac/Modules/ColorPickermodule.c
++++ Mac/Modules/ColorPickermodule.c
+@@ -27,6 +27,8 @@ PERFORMANCE OF THIS SOFTWARE.
+ 
+ /* ----------------------------------------------------- */
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ static char cp_GetColor__doc__[] =
+ "GetColor(prompt, (r, g, b)) -> (r, g, b), ok"
+ ;
+@@ -46,11 +48,14 @@ cp_GetColor(PyObject *self, PyObject *args)
+ 	
+ 	return Py_BuildValue("O&h", QdRGB_New, &outColor, ok);
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* List of methods defined in the module */
+ 
+ static struct PyMethodDef cp_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"GetColor",	(PyCFunction)cp_GetColor,	METH_VARARGS,	cp_GetColor__doc__},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL,	 		(PyCFunction)NULL, 			0, 				NULL}		/* sentinel */
+ };
+ 
+diff --git a/Mac/Modules/OSATerminology.c b/Mac/Modules/OSATerminology.c
+index 85ad425..86dba2a 100644
+--- Mac/Modules/OSATerminology.c
++++ Mac/Modules/OSATerminology.c
+@@ -11,6 +11,7 @@
+ 
+ #include <Carbon/Carbon.h>
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ static PyObject *
+ PyOSA_GetAppTerminology(PyObject* self, PyObject* args)
+ {
+@@ -68,12 +69,14 @@ PyOSA_GetSysTerminology(PyObject* self, PyObject* args)
+ 	if (err) return PyMac_Error(err);
+ 	return Py_BuildValue("O&i", AEDesc_New, &theDesc, didLaunch);
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* 
+  * List of methods defined in the module
+  */
+ static struct PyMethodDef OSATerminology_methods[] =
+ {
++#if APPLE_SUPPORTS_QUICKTIME
+   	{"GetAppTerminology", 
+ 		(PyCFunction) PyOSA_GetAppTerminology,
+ 		METH_VARARGS,
+@@ -82,6 +85,7 @@ static struct PyMethodDef OSATerminology_methods[] =
+ 		(PyCFunction) PyOSA_GetSysTerminology,
+ 		METH_VARARGS,
+ 		"Get an applications system terminology, as an AEDesc object."},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, (PyCFunction) NULL, 0, NULL}
+ };
+ 
+@@ -90,4 +94,4 @@ void
+ initOSATerminology(void)
+ {
+ 	Py_InitModule("OSATerminology", OSATerminology_methods);
+-}
+\ No newline at end of file
++}
+diff --git a/Mac/Modules/app/_Appmodule.c b/Mac/Modules/app/_Appmodule.c
+index df91f8f..fea705b 100644
+--- Mac/Modules/app/_Appmodule.c
++++ Mac/Modules/app/_Appmodule.c
+@@ -2,11 +2,9 @@
+ /* ========================== Module _App =========================== */
+ 
+ #include "Python.h"
+-
+-
+-
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1796,12 +1794,15 @@ static PyMethodDef App_methods[] = {
+ void init_App(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
+ 
+ 	m = Py_InitModule("_App", App_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	App_Error = PyMac_GetOSErrException();
+ 	if (App_Error == NULL ||
+@@ -1814,6 +1815,7 @@ void init_App(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&ThemeDrawingState_Type);
+ 	PyModule_AddObject(m, "ThemeDrawingStateType", (PyObject *)&ThemeDrawingState_Type);
++#if APPLE_SUPPORTS_QUICKTIME
+ }
+ 
+ /* ======================== End module _App ========================= */
+diff --git a/Mac/Modules/carbonevt/_CarbonEvtmodule.c b/Mac/Modules/carbonevt/_CarbonEvtmodule.c
+index 6761bef..388a3ea 100755
+--- Mac/Modules/carbonevt/_CarbonEvtmodule.c
++++ Mac/Modules/carbonevt/_CarbonEvtmodule.c
+@@ -6,6 +6,7 @@
+ 
+ 
+ #include "pymactoolbox.h"
++#if APPLE_SUPPORTS_QUICKTIME
+ 
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+@@ -2135,6 +2136,11 @@ static PyMethodDef CarbonEvents_methods[] = {
+ 	 PyDoc_STR("(UInt32 inHotKeyCode, UInt32 inHotKeyModifiers, EventHotKeyID inHotKeyID, EventTargetRef inTarget, OptionBits inOptions) -> (EventHotKeyRef outRef)")},
+ 	{NULL, NULL, 0}
+ };
++# else /* APPLE_SUPPORTS_QUICKTIME */
++static PyMethodDef CarbonEvents_methods[] = {
++	{NULL, NULL, 0}
++};
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
+@@ -2142,14 +2148,17 @@ static PyMethodDef CarbonEvents_methods[] = {
+ void init_CarbonEvt(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
++	m = Py_InitModule("_CarbonEvt", CarbonEvents_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	myEventHandlerUPP = NewEventHandlerUPP(myEventHandler);
+ 
+ 
+-	m = Py_InitModule("_CarbonEvt", CarbonEvents_methods);
+ 	d = PyModule_GetDict(m);
+ 	CarbonEvents_Error = PyMac_GetOSErrException();
+ 	if (CarbonEvents_Error == NULL ||
+@@ -2211,6 +2220,7 @@ void init_CarbonEvt(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&EventHotKeyRef_Type);
+ 	PyModule_AddObject(m, "EventHotKeyRefType", (PyObject *)&EventHotKeyRef_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ===================== End module _CarbonEvt ====================== */
+diff --git a/Mac/Modules/ctl/_Ctlmodule.c b/Mac/Modules/ctl/_Ctlmodule.c
+index a7073a6..12e8cb8 100644
+--- Mac/Modules/ctl/_Ctlmodule.c
++++ Mac/Modules/ctl/_Ctlmodule.c
+@@ -6,6 +6,7 @@
+ 
+ 
+ #include "pymactoolbox.h"
++#if APPLE_SUPPORTS_QUICKTIME
+ 
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+@@ -5523,6 +5524,11 @@ static PyMethodDef Ctl_methods[] = {
+ 	 PyDoc_STR("(WindowPtr window, Rect boundsRect, UInt16 size, UInt16 direction, ControlTabEntry tabArray) -> (ControlHandle outControl)")},
+ 	{NULL, NULL, 0}
+ };
++#else /* APPLE_SUPPORTS_QUICKTIME */
++static PyMethodDef Ctl_methods[] = {
++	{NULL, NULL, 0}
++};
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
+@@ -5768,6 +5774,7 @@ mytrackingproc(ControlHandle control, Point startPt, ControlActionUPP actionProc
+ void init_Ctl(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+@@ -5782,9 +5789,10 @@ void init_Ctl(void)
+ 	mytrackingproc_upp = NewControlUserPaneTrackingUPP(mytrackingproc);
+ 	PyMac_INIT_TOOLBOX_OBJECT_NEW(ControlHandle, CtlObj_New);
+ 	PyMac_INIT_TOOLBOX_OBJECT_CONVERT(ControlHandle, CtlObj_Convert);
+-
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 	m = Py_InitModule("_Ctl", Ctl_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Ctl_Error = PyMac_GetOSErrException();
+ 	if (Ctl_Error == NULL ||
+@@ -5797,6 +5805,7 @@ void init_Ctl(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&Control_Type);
+ 	PyModule_AddObject(m, "ControlType", (PyObject *)&Control_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _Ctl ========================= */
+diff --git a/Mac/Modules/dlg/_Dlgmodule.c b/Mac/Modules/dlg/_Dlgmodule.c
+index 19ae1e9..63ede7c 100644
+--- Mac/Modules/dlg/_Dlgmodule.c
++++ Mac/Modules/dlg/_Dlgmodule.c
+@@ -7,6 +7,7 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1567,6 +1568,7 @@ DlgObj_WhichDialog(DialogPtr d)
+ void init_Dlg(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+@@ -1574,9 +1576,11 @@ void init_Dlg(void)
+ 		PyMac_INIT_TOOLBOX_OBJECT_NEW(DialogPtr, DlgObj_New);
+ 		PyMac_INIT_TOOLBOX_OBJECT_NEW(DialogPtr, DlgObj_WhichDialog);
+ 		PyMac_INIT_TOOLBOX_OBJECT_CONVERT(DialogPtr, DlgObj_Convert);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 	m = Py_InitModule("_Dlg", Dlg_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Dlg_Error = PyMac_GetOSErrException();
+ 	if (Dlg_Error == NULL ||
+@@ -1589,6 +1593,7 @@ void init_Dlg(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&Dialog_Type);
+ 	PyModule_AddObject(m, "DialogType", (PyObject *)&Dialog_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _Dlg ========================= */
+diff --git a/Mac/Modules/drag/_Dragmodule.c b/Mac/Modules/drag/_Dragmodule.c
+index a1f743b..d9ff2d2 100644
+--- Mac/Modules/drag/_Dragmodule.c
++++ Mac/Modules/drag/_Dragmodule.c
+@@ -7,6 +7,7 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1111,15 +1112,18 @@ dragglue_Drawing(xxxx
+ void init_Drag(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+ 
+ 		PyMac_INIT_TOOLBOX_OBJECT_NEW(DragRef, DragObj_New);
+ 		PyMac_INIT_TOOLBOX_OBJECT_CONVERT(DragRef, DragObj_Convert);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 	m = Py_InitModule("_Drag", Drag_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Drag_Error = PyMac_GetOSErrException();
+ 	if (Drag_Error == NULL ||
+@@ -1141,6 +1145,7 @@ void init_Drag(void)
+ 	dragglue_DrawingUPP = NewDragDrawingUPP(dragglue_Drawing);
+ #endif
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ }
+ 
+diff --git a/Mac/Modules/help/_Helpmodule.c b/Mac/Modules/help/_Helpmodule.c
+index b9c9599..c74a272 100644
+--- Mac/Modules/help/_Helpmodule.c
++++ Mac/Modules/help/_Helpmodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -144,7 +146,10 @@ static PyObject *Help_HMHideTag(PyObject *_self, PyObject *_args)
+ 	return _res;
+ }
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
++
+ static PyMethodDef Help_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"HMGetHelpMenu", (PyCFunction)Help_HMGetHelpMenu, 1,
+ 	 PyDoc_STR("() -> (MenuRef outHelpMenu, MenuItemIndex outFirstCustomItemIndex)")},
+ 	{"HMAreHelpTagsDisplayed", (PyCFunction)Help_HMAreHelpTagsDisplayed, 1,
+@@ -161,6 +166,7 @@ static PyMethodDef Help_methods[] = {
+ 	 PyDoc_STR("(DialogPtr inDialog, SInt16 inHdlgRsrcID, SInt16 inItemStart) -> None")},
+ 	{"HMHideTag", (PyCFunction)Help_HMHideTag, 1,
+ 	 PyDoc_STR("() -> None")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+@@ -170,17 +176,21 @@ static PyMethodDef Help_methods[] = {
+ void init_Help(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
+ 
+ 	m = Py_InitModule("_Help", Help_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Help_Error = PyMac_GetOSErrException();
+ 	if (Help_Error == NULL ||
+ 	    PyDict_SetItemString(d, "Error", Help_Error) != 0)
+ 		return;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _Help ======================== */
+diff --git a/Mac/Modules/ibcarbon/_IBCarbon.c b/Mac/Modules/ibcarbon/_IBCarbon.c
+index ce120c3..80eb809 100644
+--- Mac/Modules/ibcarbon/_IBCarbon.c
++++ Mac/Modules/ibcarbon/_IBCarbon.c
+@@ -2,11 +2,11 @@
+ /* ======================== Module _IBCarbon ======================== */
+ 
+ #include "Python.h"
++#include "pymactoolbox.h"
+ 
+-
++#if APPLE_SUPPORTS_QUICKTIME
+ 
+ #include <Carbon/Carbon.h>
+-#include "pymactoolbox.h"
+ 
+ #ifdef USE_TOOLBOX_OBJECT_GLUE
+ extern int _CFStringRefObj_Convert(PyObject *, CFStringRef *);
+@@ -223,10 +223,13 @@ static PyObject *IBCarbon_CreateNibReference(PyObject *_self, PyObject *_args)
+ 	                     IBNibRefObj_New, outNibRef);
+ 	return _res;
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ static PyMethodDef IBCarbon_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"CreateNibReference", (PyCFunction)IBCarbon_CreateNibReference, 1,
+ 	 PyDoc_STR("(CFStringRef inNibName) -> (IBNibRef outNibRef)")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+@@ -236,13 +239,16 @@ static PyMethodDef IBCarbon_methods[] = {
+ void init_IBCarbon(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
+ 
+ 
+ 	m = Py_InitModule("_IBCarbon", IBCarbon_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	IBCarbon_Error = PyMac_GetOSErrException();
+ 	if (IBCarbon_Error == NULL ||
+@@ -255,6 +261,7 @@ void init_IBCarbon(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&IBNibRef_Type);
+ 	PyModule_AddObject(m, "IBNibRefType", (PyObject *)&IBNibRef_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ====================== End module _IBCarbon ====================== */
+diff --git a/Mac/Modules/icn/_Icnmodule.c b/Mac/Modules/icn/_Icnmodule.c
+index 2b43ed4..666cb54 100644
+--- Mac/Modules/icn/_Icnmodule.c
++++ Mac/Modules/icn/_Icnmodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1447,8 +1449,10 @@ static PyObject *Icn_WriteIconFile(PyObject *_self, PyObject *_args)
+ 	_res = Py_None;
+ 	return _res;
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ static PyMethodDef Icn_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"GetCIcon", (PyCFunction)Icn_GetCIcon, 1,
+ 	 PyDoc_STR("(SInt16 iconID) -> (CIconHandle _rv)")},
+ 	{"PlotCIcon", (PyCFunction)Icn_PlotCIcon, 1,
+@@ -1573,6 +1577,7 @@ static PyMethodDef Icn_methods[] = {
+ 	 PyDoc_STR("(FSRef ref) -> (IconFamilyHandle iconFamily)")},
+ 	{"WriteIconFile", (PyCFunction)Icn_WriteIconFile, 1,
+ 	 PyDoc_STR("(IconFamilyHandle iconFamily, FSSpec iconFile) -> None")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+@@ -1582,17 +1587,21 @@ static PyMethodDef Icn_methods[] = {
+ void init_Icn(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 
+ 
+ 	m = Py_InitModule("_Icn", Icn_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Icn_Error = PyMac_GetOSErrException();
+ 	if (Icn_Error == NULL ||
+ 	    PyDict_SetItemString(d, "Error", Icn_Error) != 0)
+ 		return;
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _Icn ========================= */
+diff --git a/Mac/Modules/list/_Listmodule.c b/Mac/Modules/list/_Listmodule.c
+index bfea8a3..5c66eaa 100644
+--- Mac/Modules/list/_Listmodule.c
++++ Mac/Modules/list/_Listmodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1031,8 +1033,10 @@ static PyObject *List_as_List(PyObject *_self, PyObject *_args)
+ 	return _res;
+ 
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ static PyMethodDef List_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"CreateCustomList", (PyCFunction)List_CreateCustomList, 1,
+ 	 PyDoc_STR("(Rect rView, Rect dataBounds, Point cellSize, ListDefSpec theSpec, WindowPtr theWindow, Boolean drawIt, Boolean hasGrow, Boolean scrollHoriz, Boolean scrollVert) -> (ListHandle outList)")},
+ 	{"LNew", (PyCFunction)List_LNew, 1,
+@@ -1055,10 +1059,12 @@ static PyMethodDef List_methods[] = {
+ 	 PyDoc_STR("(ListHandle list, OptionBits selectionFlags) -> None")},
+ 	{"as_List", (PyCFunction)List_as_List, 1,
+ 	 PyDoc_STR("(Resource)->List.\nReturns List object (which is not auto-freed!)")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ 
+ static void myListDefFunction(SInt16 message,
+                        Boolean selected,
+@@ -1096,10 +1102,12 @@ static void myListDefFunction(SInt16 message,
+ 	}
+ }
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ void init_List(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+@@ -1108,9 +1116,11 @@ void init_List(void)
+ 
+ 	PyMac_INIT_TOOLBOX_OBJECT_NEW(ListHandle, ListObj_New);
+ 	PyMac_INIT_TOOLBOX_OBJECT_CONVERT(ListHandle, ListObj_Convert);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 	m = Py_InitModule("_List", List_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	List_Error = PyMac_GetOSErrException();
+ 	if (List_Error == NULL ||
+@@ -1123,6 +1133,7 @@ void init_List(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&List_Type);
+ 	PyModule_AddObject(m, "ListType", (PyObject *)&List_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _List ======================== */
+diff --git a/Mac/Modules/macosmodule.c b/Mac/Modules/macosmodule.c
+index 76bfa36..f0df3ba 100644
+--- Mac/Modules/macosmodule.c
++++ Mac/Modules/macosmodule.c
+@@ -292,7 +292,7 @@ MacOS_GetCreatorAndType(PyObject *self, PyObject *args)
+ 	FileInfo* finfo;
+ 
+ 	if (!PyArg_ParseTuple(args, "O&", PyMac_GetFSRef, &ref)) {
+-#ifndef __LP64__
++#if APPLE_SUPPORTS_QUICKTIME
+ 		/* This function is documented to take an FSSpec as well,
+ 		 * which only works in 32-bit mode.
+ 		 */
+@@ -313,9 +313,9 @@ MacOS_GetCreatorAndType(PyObject *self, PyObject *args)
+ 		Py_DECREF(creator);
+ 		Py_DECREF(type);
+ 		return res;
+-#else	/* __LP64__ */
++#else   /* APPLE_SUPPORTS_QUICKTIME */
+ 		return NULL;
+-#endif	/* __LP64__ */
++#endif  /* APPLE_SUPPORTS_QUICKTIME */
+ 	}
+ 
+ 	err = FSGetCatalogInfo(&ref, 
+@@ -359,7 +359,7 @@ MacOS_SetCreatorAndType(PyObject *self, PyObject *args)
+ 
+ 	if (!PyArg_ParseTuple(args, "O&O&O&",
+ 			PyMac_GetFSRef, &ref, PyMac_GetOSType, &creator, PyMac_GetOSType, &type)) {
+-#ifndef __LP64__
++#if APPLE_SUPPORTS_QUICKTIME
+ 		/* Try to handle FSSpec arguments, for backward compatibility */
+ 		FSSpec fss;
+ 		FInfo info;
+@@ -378,9 +378,9 @@ MacOS_SetCreatorAndType(PyObject *self, PyObject *args)
+ 			return PyErr_Mac(MacOS_Error, err);
+ 		Py_INCREF(Py_None);
+ 		return Py_None;
+-#else /* __LP64__ */
++#else   /* APPLE_SUPPORTS_QUICKTIME */
+ 		return NULL;
+-#endif /* __LP64__ */
++#endif  /* APPLE_SUPPORTS_QUICKTIME */
+ 	}
+ 	
+ 	err = FSGetCatalogInfo(&ref, 
+diff --git a/Mac/Modules/mlte/_Mltemodule.c b/Mac/Modules/mlte/_Mltemodule.c
+index 0b37fe1..3e17c42 100644
+--- Mac/Modules/mlte/_Mltemodule.c
++++ Mac/Modules/mlte/_Mltemodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1637,7 +1639,10 @@ static PyObject *Mlte_TXNInitTextension(PyObject *_self, PyObject *_args)
+ 
+ }
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
++
+ static PyMethodDef Mlte_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"TXNNewObject", (PyCFunction)Mlte_TXNNewObject, 1,
+ 	 PyDoc_STR("(FSSpec * iFileSpec, WindowPtr iWindow, Rect iFrame, TXNFrameOptions iFrameOptions, TXNFrameType iFrameType, TXNFileType iFileType, TXNPermanentTextEncodingType iPermanentEncoding) -> (TXNObject oTXNObject, TXNFrameID oTXNFrameID)")},
+ 	{"TXNTerminateTextension", (PyCFunction)Mlte_TXNTerminateTextension, 1,
+@@ -1654,6 +1659,7 @@ static PyMethodDef Mlte_methods[] = {
+ 	 PyDoc_STR("() -> (TXNVersionValue _rv, TXNFeatureBits oFeatureFlags)")},
+ 	{"TXNInitTextension", (PyCFunction)Mlte_TXNInitTextension, 1,
+ 	 PyDoc_STR("(TXNInitOptions) -> None")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+@@ -1663,14 +1669,17 @@ static PyMethodDef Mlte_methods[] = {
+ void init_Mlte(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+ 
+ 	//	PyMac_INIT_TOOLBOX_OBJECT_NEW(xxxx);
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 	m = Py_InitModule("_Mlte", Mlte_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Mlte_Error = PyMac_GetOSErrException();
+ 	if (Mlte_Error == NULL ||
+@@ -1690,6 +1699,7 @@ void init_Mlte(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&TXNFontMenuObject_Type);
+ 	PyModule_AddObject(m, "TXNFontMenuObjectType", (PyObject *)&TXNFontMenuObject_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _Mlte ======================== */
+diff --git a/Mac/Modules/qt/_Qtmodule.c b/Mac/Modules/qt/_Qtmodule.c
+index 50223ec..a463801 100644
+--- Mac/Modules/qt/_Qtmodule.c
++++ Mac/Modules/qt/_Qtmodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -26287,7 +26289,10 @@ static PyObject *Qt_MoviesTask(PyObject *_self, PyObject *_args)
+ 	return _res;
+ }
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
++
+ static PyMethodDef Qt_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"EnterMovies", (PyCFunction)Qt_EnterMovies, 1,
+ 	 PyDoc_STR("() -> None")},
+ 	{"ExitMovies", (PyCFunction)Qt_ExitMovies, 1,
+@@ -27980,6 +27985,7 @@ static PyMethodDef Qt_methods[] = {
+ 	 PyDoc_STR("(WindowPtr wp, Point startPt, Rect boundsRect) -> None")},
+ 	{"MoviesTask", (PyCFunction)Qt_MoviesTask, 1,
+ 	 PyDoc_STR("(long maxMilliSecToUse) -> None")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+@@ -27989,6 +27995,7 @@ static PyMethodDef Qt_methods[] = {
+ void init_Qt(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+@@ -28005,9 +28012,11 @@ void init_Qt(void)
+ 		PyMac_INIT_TOOLBOX_OBJECT_CONVERT(UserData, UserDataObj_Convert);
+ 		PyMac_INIT_TOOLBOX_OBJECT_NEW(Media, MediaObj_New);
+ 		PyMac_INIT_TOOLBOX_OBJECT_CONVERT(Media, MediaObj_Convert);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ 	m = Py_InitModule("_Qt", Qt_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Qt_Error = PyMac_GetOSErrException();
+ 	if (Qt_Error == NULL ||
+@@ -28069,6 +28078,7 @@ void init_Qt(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&SGOutput_Type);
+ 	PyModule_AddObject(m, "SGOutputType", (PyObject *)&SGOutput_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ========================= End module _Qt ========================= */
+diff --git a/Mac/Modules/te/_TEmodule.c b/Mac/Modules/te/_TEmodule.c
+index 0dd59c6..f597915 100644
+--- Mac/Modules/te/_TEmodule.c
++++ Mac/Modules/te/_TEmodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -1267,7 +1269,10 @@ static PyObject *TE_as_TE(PyObject *_self, PyObject *_args)
+ 	return _res;
+ }
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
++
+ static PyMethodDef TE_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"TEScrapHandle", (PyCFunction)TE_TEScrapHandle, 1,
+ 	 PyDoc_STR("() -> (Handle _rv)")},
+ 	{"TEGetScrapLength", (PyCFunction)TE_TEGetScrapLength, 1,
+@@ -1294,6 +1299,7 @@ static PyMethodDef TE_methods[] = {
+ 	 PyDoc_STR("(UInt8 value) -> None")},
+ 	{"as_TE", (PyCFunction)TE_as_TE, 1,
+ 	 PyDoc_STR("(Handle h) -> (TEHandle _rv)")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+@@ -1303,6 +1309,7 @@ static PyMethodDef TE_methods[] = {
+ void init_TE(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+@@ -1310,8 +1317,10 @@ void init_TE(void)
+ 		PyMac_INIT_TOOLBOX_OBJECT_NEW(TEHandle, TEObj_New);
+ 		PyMac_INIT_TOOLBOX_OBJECT_CONVERT(TEHandle, TEObj_Convert);
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 	m = Py_InitModule("_TE", TE_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	TE_Error = PyMac_GetOSErrException();
+ 	if (TE_Error == NULL ||
+@@ -1324,6 +1333,7 @@ void init_TE(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&TE_Type);
+ 	PyModule_AddObject(m, "TEType", (PyObject *)&TE_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ========================= End module _TE ========================= */
+diff --git a/Mac/Modules/win/_Winmodule.c b/Mac/Modules/win/_Winmodule.c
+index 2a13182..393a4d8 100644
+--- Mac/Modules/win/_Winmodule.c
++++ Mac/Modules/win/_Winmodule.c
+@@ -7,6 +7,8 @@
+ 
+ #include "pymactoolbox.h"
+ 
++#if APPLE_SUPPORTS_QUICKTIME
++
+ /* Macro to test whether a weak-loaded CFM function exists */
+ #define PyMac_PRECHECK(rtn) do { if ( &rtn == NULL )  {\
+         PyErr_SetString(PyExc_NotImplementedError, \
+@@ -3147,7 +3149,10 @@ static PyObject *Win_FindWindow(PyObject *_self, PyObject *_args)
+ 	return _res;
+ }
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
++
+ static PyMethodDef Win_methods[] = {
++#if APPLE_SUPPORTS_QUICKTIME
+ 	{"GetNewCWindow", (PyCFunction)Win_GetNewCWindow, 1,
+ 	 PyDoc_STR("(short windowID, WindowPtr behind) -> (WindowPtr _rv)")},
+ 	{"NewWindow", (PyCFunction)Win_NewWindow, 1,
+@@ -3198,11 +3203,13 @@ static PyMethodDef Win_methods[] = {
+ 	 PyDoc_STR("Resolve an integer WindowPtr address to a Window object")},
+ 	{"FindWindow", (PyCFunction)Win_FindWindow, 1,
+ 	 PyDoc_STR("(Point thePoint) -> (short _rv, WindowPtr theWindow)")},
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 	{NULL, NULL, 0}
+ };
+ 
+ 
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ /* Return the object corresponding to the window, or NULL */
+ 
+ PyObject *
+@@ -3224,11 +3231,13 @@ WinObj_WhichWindow(WindowPtr w)
+ 	}
+ 	return it;
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 
+ void init_Win(void)
+ {
+ 	PyObject *m;
++#if APPLE_SUPPORTS_QUICKTIME
+ 	PyObject *d;
+ 
+ 
+@@ -3237,8 +3246,10 @@ void init_Win(void)
+ 		PyMac_INIT_TOOLBOX_OBJECT_NEW(WindowPtr, WinObj_WhichWindow);
+ 		PyMac_INIT_TOOLBOX_OBJECT_CONVERT(WindowPtr, WinObj_Convert);
+ 
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ 	m = Py_InitModule("_Win", Win_methods);
++#if APPLE_SUPPORTS_QUICKTIME
+ 	d = PyModule_GetDict(m);
+ 	Win_Error = PyMac_GetOSErrException();
+ 	if (Win_Error == NULL ||
+@@ -3251,6 +3262,7 @@ void init_Win(void)
+ 	/* Backward-compatible name */
+ 	Py_INCREF(&Window_Type);
+ 	PyModule_AddObject(m, "WindowType", (PyObject *)&Window_Type);
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ }
+ 
+ /* ======================== End module _Win ========================= */
+diff --git a/Python/mactoolboxglue.c b/Python/mactoolboxglue.c
+index bf2adb0..dc18b76 100644
+--- Python/mactoolboxglue.c
++++ Python/mactoolboxglue.c
+@@ -104,6 +104,7 @@ PyMac_Error(OSErr err)
+ }
+ 
+ 
++#if APPLE_SUPPORTS_QUICKTIME
+ OSErr
+ PyMac_GetFullPathname(FSSpec *fss, char *path, int len)
+ {
+@@ -151,6 +152,7 @@ PyMac_GetFullPathname(FSSpec *fss, char *path, int len)
+ 	Py_XDECREF(fs);
+ 	return err;
+ }
++#endif /* APPLE_SUPPORTS_QUICKTIME */
+ 
+ /* Convert a 4-char string object argument to an OSType value */
+ int
