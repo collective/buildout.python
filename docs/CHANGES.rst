@@ -1,6 +1,15 @@
 Changes
 =======
 
+2017-07-28
+----------
+
+- Pin setuptools to <36.1. Upgrading further causes Pillow to fail to install.
+  This may be caused by the inability of setuptools to install/upgrade itself
+  anymore.
+  [fschulze]
+
+
 2017-07-18
 ----------
 
