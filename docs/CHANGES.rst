@@ -4,6 +4,9 @@ Changes
 2017-09-17
 ----------
 
+- Update to 2.7.14.
+  [hannosch]
+
 - Add macOS High Sierra (10.13) support.
   [hannosch]
 
