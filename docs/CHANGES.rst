@@ -1,6 +1,12 @@
 Changes
 =======
 
+2017-09-17
+----------
+
+- Add macOS High Sierra (10.13) support.
+  [hannosch]
+
 2017-08-13
 ----------
 
