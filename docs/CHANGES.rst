@@ -4,6 +4,9 @@ Changes
 2017-09-20
 ----------
 
+- Add Python 3.7.0a1.
+  [hannosch]
+
 - Update to 3.3.7 and 3.6.3rc1.
   [hannosch]
 
