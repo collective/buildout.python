@@ -1,6 +1,14 @@
 Changes
 =======
 
+2017-10-18
+----------
+
+- Remove Pillow. For macOS use homebrew for libjpeg. Install Pillow in
+  virtualenv.
+  [fschulze]
+
+
 2017-10-06
 ----------
 
