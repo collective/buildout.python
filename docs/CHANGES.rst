@@ -4,6 +4,9 @@ Changes
 2017-10-18
 ----------
 
+- Use OpenSSL 1.1 for 2.7 and 3.5 and up with homebrew.
+  [fschulze]
+
 - Remove Pillow. For macOS use homebrew for libjpeg. Install Pillow in
   virtualenv.
   [fschulze]
