@@ -8,6 +8,9 @@ Changes
   virtualenv.
   [fschulze]
 
+- Update to 3.7.0a2.
+  [fschulze]
+
 
 2017-10-06
 ----------
