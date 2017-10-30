@@ -21,6 +21,8 @@ use the -c option to specify an alternate configuration file.
 import os, shutil, sys, tempfile, urllib, urllib2, subprocess
 from optparse import OptionParser
 
+__version__ = '1.x-2017-10-27'
+
 if sys.platform == 'win32':
     def quote(c):
         if ' ' in c:
@@ -69,8 +71,7 @@ for k, v in sys.modules.items():
 
 is_jython = sys.platform.startswith('java')
 
-setuptools_source = 'http://peak.telecommunity.com/dist/ez_setup.py'
-distribute_source = 'http://python-distribute.org/distribute_setup.py'
+setuptools_source = 'https://bootstrap.pypa.io/ez_setup.py'
 distribute_source = 'https://bitbucket.org/pypa/setuptools/raw/f657df1f1ed46596d236376649c99a470662b4ba/distribute_setup.py'
 
 # parsing arguments
