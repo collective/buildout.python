@@ -1,6 +1,14 @@
 Changes
 =======
 
+2017-10-30
+----------
+
+- Fix Python 2.4 and 2.5 installations, now that PyPI has disabled HTTP
+  redirects (https://mail.python.org/pipermail/distutils-sig/2017-October/031712.html)
+  [fschulze]
+
+
 2017-10-18
 ----------
 
