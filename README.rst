@@ -16,6 +16,13 @@ Installation
 
 See ``docs/INSTALL.rst``
 
+Quick start
+~~~~~~~~~~~
+
+$ virtualenv --python=python2.7 .
+$ bin/pip install setuptools==1.4.2 zc.buildout==1.7.1
+$ bin/buildout
+
 Upgrade
 -------
 
