@@ -1,6 +1,13 @@
 Changes
 =======
 
+2017-12-26
+----------
+
+- Update PyPy and PyPy3 to 5.10.0.
+  [fschulze]
+
+
 2017-12-20
 ----------
 
