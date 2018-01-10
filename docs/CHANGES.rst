@@ -1,6 +1,12 @@
 Changes
 =======
 
+2018-01-10
+----------
+
+- Correct PyPy buildout rule for Darwin
+  [mj]
+
 2017-12-26
 ----------
 
