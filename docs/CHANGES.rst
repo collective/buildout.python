@@ -13,6 +13,9 @@ Changes
 - Reinstate buildout version 1.4.4 to retain compatibility with Python < 2.7
   [mj]
 
+- Update to 3.7.0a4
+  [mj]
+
 2017-12-26
 ----------
 
