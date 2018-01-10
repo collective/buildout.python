@@ -7,6 +7,9 @@ Changes
 - Correct PyPy buildout rule for Darwin
   [mj]
 
+- Adjust pip install command on 2.5 to work around lack of SSL validation.
+  [mj]
+
 2017-12-26
 ----------
 
