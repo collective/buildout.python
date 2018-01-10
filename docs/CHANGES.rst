@@ -10,6 +10,9 @@ Changes
 - Adjust pip install command on 2.5 to work around lack of SSL validation.
   [mj]
 
+- Reinstate buildout version 1.4.4 to retain compatibility with Python < 2.7
+  [mj]
+
 2017-12-26
 ----------
 
