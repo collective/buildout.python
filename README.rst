@@ -59,6 +59,7 @@ like this::
     extends =
       src/base.cfg
       src/readline.cfg
+      src/zlib.cfg
       src/python25.cfg
       src/links.cfg
 
@@ -67,6 +68,7 @@ like this::
     parts =
         ${buildout:base-parts}
         ${buildout:readline-parts}
+        ${buildout:zlib-parts}
         ${buildout:python25-parts}
         ${buildout:links-parts}
 
