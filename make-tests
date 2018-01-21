@@ -1,0 +1,24 @@
+define cfg
+[buildout]
+extends =
+    src/base.cfg
+    src/readline.cfg
+    src/$(buildout_target).cfg
+python-buildout-root = $${buildout:directory}/src
+parts =
+    $${buildout:base-parts}
+    $${buildout:readline-parts}
+    $${buildout:$(buildout_target)-parts}
+endef
+export cfg
+
+all: .installed.cfg
+
+test.cfg:
+	test -e $@ || echo "$$cfg" > $@
+
+bin/buildout:
+	python bootstrap.py
+
+.installed.cfg: test.cfg bin/buildout
+	bin/buildout -vc test.cfg

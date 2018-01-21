@@ -1,6 +1,13 @@
 Changes
 =======
 
+2018-01-26
+----------
+
+- Add Travis-CI testing.
+  [fschulze]
+
+
 2018-01-10
 ----------
 
