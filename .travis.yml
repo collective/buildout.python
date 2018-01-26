@@ -1,0 +1,22 @@
+language: generic
+sudo: false
+env:
+  matrix:
+    - BUILDOUT_TARGET=python24 EXECUTABLE=python-2.4/bin/python
+    - BUILDOUT_TARGET=python25 EXECUTABLE=python-2.5/bin/python
+    - BUILDOUT_TARGET=python26 EXECUTABLE=python-2.6/bin/python
+    - BUILDOUT_TARGET=python27 EXECUTABLE=python-2.7/bin/python
+    - BUILDOUT_TARGET=python32 EXECUTABLE=python-3.2/bin/python
+    - BUILDOUT_TARGET=python33 EXECUTABLE=python-3.3/bin/python
+    - BUILDOUT_TARGET=python34 EXECUTABLE=python-3.4/bin/python
+    - BUILDOUT_TARGET=python35 EXECUTABLE=python-3.5/bin/python
+    - BUILDOUT_TARGET=python36 EXECUTABLE=python-3.6/bin/python
+    - BUILDOUT_TARGET=python37 EXECUTABLE=python-3.7/bin/python
+    - BUILDOUT_TARGET=pypy EXECUTABLE=pypy/bin/python
+    - BUILDOUT_TARGET=pypy3 EXECUTABLE=pypy3/bin/python
+os:
+  - linux
+  - osx
+script:
+  - make -f make-tests buildout_target=$BUILDOUT_TARGET
+  - $EXECUTABLE -V

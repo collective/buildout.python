@@ -21,3 +21,4 @@ opt
 *.pyc
 setuptools*.tar.gz
 setuptools*.zip
+test.cfg
