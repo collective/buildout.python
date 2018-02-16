@@ -73,6 +73,10 @@ except ImportError:
     else:
         exec urllib2.urlopen('http://peak.telecommunity.com/dist/ez_setup.py'
                              ).read() in ez
+        # MJ 2018/02/16 PyPI switched off http support, ensure we use https
+        ez['use_setuptools'].func_defaults = tuple(
+            v.replace('http:', 'https:') if hasattr(v, 'replace') else v
+            for v in ez['use_setuptools'].func_defaults)
         ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
 
     if to_reload:
@@ -105,6 +109,8 @@ env = dict(os.environ,
 cmd = [quote(sys.executable),
        '-c',
        quote('from setuptools.command.easy_install import main; main()'),
+       # MJ 2018/02/16 PyPI switched off http support, ensure we use https
+       '--index-url=https://pypi.python.org/simple',
        '-mqNxd',
        quote(tmpeggs)]
 
