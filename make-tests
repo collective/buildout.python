@@ -3,11 +3,13 @@ define cfg
 extends =
     src/base.cfg
     src/readline.cfg
+    src/zlib.cfg
     src/$(buildout_target).cfg
 python-buildout-root = $${buildout:directory}/src
 parts =
     $${buildout:base-parts}
     $${buildout:readline-parts}
+    $${buildout:zlib-parts}
     $${buildout:$(buildout_target)-parts}
 endef
 export cfg

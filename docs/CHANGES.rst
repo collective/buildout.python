@@ -23,6 +23,10 @@ Changes
 2018-01-26
 ----------
 
+- Add zlib to the build, so Python 2.4 compiles on Linux and compilation of
+  Python on High Sierra works properly.
+  [fschulze]
+
 - Add Travis-CI testing.
   [fschulze]
 
