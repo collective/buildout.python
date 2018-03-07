@@ -1,6 +1,18 @@
 Changes
 =======
 
+2018-03-07
+----------
+
+- Update to 3.7.0b2
+  [mj]
+
+2018-02-18
+----------
+
+- Adjust bootstrap.py to only use https URLs for PyPI
+  [mj]
+
 2018-02-05
 ----------
 
