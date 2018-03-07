@@ -7,6 +7,9 @@ Changes
 - Update to 3.7.0b2
   [mj]
 
+- Updated the install-links script to work on either Python 2 or 3
+  [mj]
+
 2018-02-18
 ----------
 

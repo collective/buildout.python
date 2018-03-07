@@ -1,7 +1,16 @@
 #!/usr/bin/env python
+from __future__ import print_function
+
 import glob
 import os
 import sys
+
+
+# Python 2 / 3 compatibility
+try:
+    raw_input
+except NameError:
+    raw_input = input
 
 
 def yesno(question):
@@ -15,7 +24,7 @@ def yesno(question):
         for option in answers:
             if answer in answers[option]:
                 return option
-        print >>sys.stderr, "You have to answer with y, yes, n or no."
+        print("You have to answer with y, yes, n or no.", file=sys.stderr)
 
 
 buildout = "${buildout:directory}"
@@ -50,7 +59,7 @@ for src, name in links:
     if os.path.lexists(dst):
         if os.path.islink(dst):
             if os.readlink(dst) == src:
-                print "No change needed for symlink to '%s' at '%s'." % (src, dst)
+                print("No change needed for symlink to '%s' at '%s'." % (src, dst))
                 continue
             else:
                 if not yesno("Replace symlink at '%s' pointing to '%s' with symlink to '%s'?" % (dst, os.readlink(dst), src)):
@@ -61,4 +70,5 @@ for src, name in links:
                 continue
             os.unlink(dst)
     os.symlink(src, dst)
-    print "Created symlink to '%s' at '%s'." % (src, dst)
+    print("Created symlink to '%s' at '%s'." % (src, dst))
+
