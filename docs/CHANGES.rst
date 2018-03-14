@@ -1,6 +1,13 @@
 Changes
 =======
 
+2018-03-14
+----------
+
+- Update to 3.6.5rc1
+  [fschulze]
+
+
 2018-03-07
 ----------
 
@@ -10,11 +17,13 @@ Changes
 - Updated the install-links script to work on either Python 2 or 3
   [mj]
 
+
 2018-02-18
 ----------
 
 - Adjust bootstrap.py to only use https URLs for PyPI
   [mj]
+
 
 2018-02-05
 ----------
@@ -22,11 +31,13 @@ Changes
 - Update to 3.4.8 and 3.5.5
   [mj]
 
+
 2018-02-04
 ----------
 
 - Update to 3.7.0b1
   [mj]
+
 
 2018-01-30
 ----------
@@ -59,6 +70,7 @@ Changes
 
 - Update to 3.7.0a4
   [mj]
+
 
 2017-12-26
 ----------
@@ -116,6 +128,7 @@ Changes
 - Update Python 3.6 to 3.6.3
   [mj]
 
+
 2017-09-20
 ----------
 
@@ -124,6 +137,7 @@ Changes
 
 - Update to 3.3.7 and 3.6.3rc1.
   [hannosch]
+
 
 2017-09-17
 ----------
@@ -134,12 +148,14 @@ Changes
 - Add macOS High Sierra (10.13) support.
   [hannosch]
 
+
 2017-08-13
 ----------
 
 - Update python 3.4 to 3.4.7
 - Update python 3.5 to 3.5.4
   [mj]
+
 
 2017-07-28
 ----------
