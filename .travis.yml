@@ -17,6 +17,8 @@ env:
 os:
   - linux
   - osx
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew install libffi ncurses; fi
 script:
   - make -f make-tests buildout_target=$BUILDOUT_TARGET
   - $EXECUTABLE -V
