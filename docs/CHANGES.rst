@@ -1,6 +1,13 @@
 Changes
 =======
 
+2018-04-01
+----------
+
+- Pin pip to <10dev for Python 2.6.
+  [fschulze]
+
+
 2018-03-30
 ----------
 
