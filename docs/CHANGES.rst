@@ -4,7 +4,7 @@ Changes
 2018-05-07
 ----------
 
-- Update to 2.7.15
+- Update to 2.7.15 and 3.7.0b4
   [mj]
 
 2018-04-01
