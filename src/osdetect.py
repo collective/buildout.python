@@ -27,6 +27,8 @@ def osdetect(buildout):
             platforms.insert(0, 'darwin-sierra')
         elif mac_ver[0].startswith('10.13'):
             platforms.insert(0, 'darwin-highsierra')
+        elif mac_ver[0].startswith('10.14'):
+            platforms.insert(0, 'darwin-mojave')
     elif sys.platform == 'linux2':
         platforms.insert(0, 'linux2')
         dist, version, name = [x.lower() for x in platform.dist()]

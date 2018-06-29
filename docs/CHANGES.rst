@@ -1,6 +1,12 @@
 Changes
 =======
 
+2018-06-29
+----------
+
+- Add macOS Mojave (10.14) support.
+  [hannosch]
+
 2018-05-07
 ----------
 
