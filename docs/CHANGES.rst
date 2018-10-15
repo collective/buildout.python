@@ -1,6 +1,12 @@
 Changes
 =======
 
+2018-10-15
+----------
+
+- For Python 3.4 and newer, use ensurepip rather than easy_install to bootstrap.
+  [mj]
+
 2018-09-27
 ----------
 
