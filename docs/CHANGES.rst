@@ -1,6 +1,13 @@
 Changes
 =======
 
+2018-12-02
+----------
+
+- Update PyPy and PyPy3 to 6.0.0.
+  PyPy3 6.0 on macOS requires at least High Sierra (10.13).
+  [hannosch]
+
 2018-10-21
 ----------
 
