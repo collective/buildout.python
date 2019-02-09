@@ -12,6 +12,7 @@ env:
     - BUILDOUT_TARGET=python35 EXECUTABLE=python-3.5/bin/python
     - BUILDOUT_TARGET=python36 EXECUTABLE=python-3.6/bin/python
     - BUILDOUT_TARGET=python37 EXECUTABLE=python-3.7/bin/python
+    - BUILDOUT_TARGET=python38 EXECUTABLE=python-3.8/bin/python
     - BUILDOUT_TARGET=pypy EXECUTABLE=pypy/bin/python
     - BUILDOUT_TARGET=pypy3 EXECUTABLE=pypy3/bin/python
 os:
