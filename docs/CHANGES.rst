@@ -1,6 +1,12 @@
 Changes
 =======
 
+2019-02-16
+----------
+
+- Update PyPy and PyPy3 to 7.0.0.
+  [hannosch]
+
 2019-02-09
 ----------
 
