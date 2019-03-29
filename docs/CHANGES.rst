@@ -4,6 +4,9 @@ Changes
 2019-03-29
 ----------
 
+- Update PyPy to 7.1.0.
+  [hannosch]
+
 - Update to Python 3.4.10, 3.5.7, 3.7.3, 3.8.0a3.
   [hannosch]
 
