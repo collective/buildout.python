@@ -1,6 +1,12 @@
 Changes
 =======
 
+2019-04-30
+----------
+
+- On Mac Mojave, add CFLAGS=-I$(xcrun --show-sdk-path)/usr/include so we can find zlib.
+  [maurits]
+
 2019-03-29
 ----------
 
