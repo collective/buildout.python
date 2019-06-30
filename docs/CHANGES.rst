@@ -4,6 +4,9 @@ Changes
 2019-06-30
 ----------
 
+- Add preliminary macOS Catalina (10.15) support.
+  [hannosch]
+
 - Update PyPy to 7.1.1.
   [hannosch]
 
