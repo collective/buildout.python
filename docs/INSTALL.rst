@@ -3,6 +3,11 @@ Mac OS X
 
 Install XCode from the App Store.
 
+Install ``virtualenv``, ``zc;buildout`` and ``setuptools`` ::
+
+  $ brew install python@2
+  $ /usr/local/bin/virtualenv .
+  $ bin/pip install zc.buildout==1.4.4 setuptools==1.4.2
 
 GNU/Linux
 ---------
@@ -27,14 +32,13 @@ On CentOS / RHEL, install the following::
 
   $ sudo yum groupinstall "Development tools"
   $ sudo yum install openssl-devel python curl bzip2-devel sqlite-devel
-
-
-All Platforms
--------------
-
+  
 Bootstrap the buildout with the standard system Python like this::
 
   $ /usr/bin/python bootstrap.py
+
+All Platforms
+-------------
 
 Run buildout like this afterwards::
 
