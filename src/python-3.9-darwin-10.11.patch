@@ -1,0 +1,18 @@
+diff -Naurp Modules/Setup Modules/Setup
+--- Modules/Setup   2019-02-09 10:48:16.000000000 +0100
++++ Modules/Setup   2019-02-09 10:51:06.000000000 +0100
+@@ -205,10 +205,10 @@ _symtable symtablemodule.c
+ 
+ # Socket module helper for SSL support; you must comment out the other
+ # socket line above, and possibly edit the SSL variable:
+-#SSL=/usr/local/ssl
+-#_ssl _ssl.c \
+-#	-DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
+-#	-L$(SSL)/lib -lssl -lcrypto
++SSL=/usr/local/opt/openssl@1.1
++_ssl _ssl.c \
++	-DUSE_SSL -I$(SSL)/include -I$(SSL)/include/openssl \
++	-L$(SSL)/lib -lssl -lcrypto
+ 
+ # The crypt module is now disabled by default because it breaks builds
+ # on many systems (where -lcrypt is needed), e.g. Linux (I believe).
