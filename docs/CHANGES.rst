@@ -7,6 +7,9 @@ Changes
 - Update to Python 3.6.10, 3.7.6, and 3.8.1
   [mj]
 
+- Update to Python 3.9.0a2
+  [mj]
+
 2019-12-15
 ----------
 
