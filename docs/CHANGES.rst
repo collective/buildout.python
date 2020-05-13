@@ -1,6 +1,12 @@
 Changes
 =======
 
+2020-05-13
+----------
+
+- Pin docutils for Python 2.4 and Python 2.5
+  [mj]
+
 2020-03-16
 ----------
 
