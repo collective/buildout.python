@@ -3,6 +3,13 @@ Mac OS X
 
 Install XCode from the App Store.
 
+Install openssl@1.1 with homebrew.
+
+For Python versions 2.4-2.6 and 3.2-3.4, only OpenSSL versions up to 1.0.x are
+supported, but homebrew has removed the 1.0 formula. You can install the last
+OpenSSL 1.0 release as an @1.0 release with::
+
+    $ brew install mjpieters/tap/openssl@1.0
 
 GNU/Linux
 ---------
@@ -28,6 +35,9 @@ On CentOS / RHEL, install the following::
   $ sudo yum groupinstall "Development tools"
   $ sudo yum install openssl-devel python curl bzip2-devel sqlite-devel
 
+Note that older Python releases (<= 2.6, <= 3.4) do not work with openssl 1.1 or newer.
+You'll have to find additional packages or direct downloads for openssl 1.0 if
+you want to include SSL support in these older versions.
 
 All Platforms
 -------------

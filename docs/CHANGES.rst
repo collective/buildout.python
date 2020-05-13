@@ -10,6 +10,14 @@ Changes
 - Update to Python 2.7.18 3.8.3rc1 and 3.9.0a6
   [mj]
 
+- Rework per-version build environment and configure switches to facilitate
+  customisation better
+  [mj]
+
+- Update macOS homebrew openssl setup for OpenSSL 1.0.x, as that version is no
+  longer available from homebrew-core. Clean up unnecessary patches for Setup.
+  [mj]
+
 2020-03-16
 ----------
 

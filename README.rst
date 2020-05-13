@@ -78,17 +78,60 @@ doesn't work.
 Compilation Options
 -------------------
 
-If you want to adjust the configuration or compilation options for
-a Python variant, you can do so via your `local.cfg`.
+Create a `local.cfg` file to customise what is built or alter configuration.
+You can use this limit what versions are built, or to configure where to find
+libraries and header files.
 
-If you are installing Python 3.6, you could for example turn off compile
-time optimizations via the ``extra_options -=``. Or if you are on a newer
-version of Mac OS, you could link against an OpenSSL library installed
-via Homebrew, via the ``environment`` section::
+Start the file with::
 
-    [python-3.6-build:default]
-    extra_options -=
-        --enable-optimizations
+    [buildout]
+    extends = buildout.cfg
+
+and you can then run buildout with::
+
+    $ ./bin/buildout -c local.cfg
+
+to use this adjusted configuration.
+
+To limit what Python versions are built, re-define the `buildout.parts`
+variable, found in `buildout.cfg`::
+
+    # build Python versions 3.7, 3.8 and 3.9
+    parts =
+        ${buildout:base-parts}
+        ${buildout:readline-parts}
+        ${buildout:zlib-parts}
+        ${buildout:python37-parts}
+        ${buildout:python38-parts}
+        ${buildout:python39-parts}
+        ${buildout:links-parts}
+
+You can set additional environment variables or `configure` switches for all 
+Python builds by extending the `python-build:default.extra_options` and 
+`python-build:default.environment` options. Setting the `optimizations` option 
+to an empty value disables the Profile-Guided optimization compilation option
+for modern Python versions::
+
+    [python-build:default]
+    optimizations =
+    environment +=
+        SOMEVARIABLE=somevalue
+    extra_opts +=
+        --some-supported-option
+
+If you are installing Python 3.6, and if you are on a newer
+version of Mac OS, you could link against a SQLite library installed
+via Homebrew, and enable the `loadable-sqlite-extensions` option, via
+the ``[python-build:darwin]`` section::
+
+    [python-build:darwin]
+    shellvars=
+        sqlite = brew --prefix sqlite
+    extra_opts +=
+        --with-loadable-sqlite-extensions
     environment =
-        LDFLAGS=-L/usr/local/opt/openssl/lib
-        CPPFLAGS=-I/usr/local/opt/openssl/include
+        LDFLAGS=-L{:openssl}/lib -L{:sqlite}/lib
+        CPPFLAGS=-I{:openssl}/include -L{:sqlite/lib}
+
+Refer to the `buildout.cfg` and `src/*.cfg` files for further definitions you
+may want to override.
