@@ -7,6 +7,9 @@ Changes
 - Pin docutils for Python 2.4 and Python 2.5
   [mj]
 
+- Update to Python 2.7.18 3.8.3rc1 and 3.9.0a6
+  [mj]
+
 2020-03-16
 ----------
 
