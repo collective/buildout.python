@@ -23,4 +23,4 @@ bin/buildout:
 	python bootstrap.py
 
 .installed.cfg: test.cfg bin/buildout
-	bin/buildout -vc test.cfg
+	bin/buildout -vvc test.cfg
