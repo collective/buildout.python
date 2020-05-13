@@ -131,7 +131,7 @@ the ``[python-build:darwin]`` section::
         --with-loadable-sqlite-extensions
     environment =
         LDFLAGS=-L${:openssl}/lib -L${:sqlite}/lib
-        CPPFLAGS=-I${:openssl}/include -L${:sqlite/include}
+        CPPFLAGS=-I${:openssl}/include -I${:sqlite/include}
 
 Refer to the `buildout.cfg` and `src/*.cfg` files for further definitions you
 may want to override.
