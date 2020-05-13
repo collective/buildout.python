@@ -125,13 +125,13 @@ via Homebrew, and enable the `loadable-sqlite-extensions` option, via
 the ``[python-build:darwin]`` section::
 
     [python-build:darwin]
-    shellvars=
+    shellvars +=
         sqlite = brew --prefix sqlite
     extra_opts +=
         --with-loadable-sqlite-extensions
     environment =
-        LDFLAGS=-L{:openssl}/lib -L{:sqlite}/lib
-        CPPFLAGS=-I{:openssl}/include -L{:sqlite/lib}
+        LDFLAGS=-L${:openssl}/lib -L${:sqlite}/lib
+        CPPFLAGS=-I${:openssl}/include -L${:sqlite/lib}
 
 Refer to the `buildout.cfg` and `src/*.cfg` files for further definitions you
 may want to override.
