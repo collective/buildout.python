@@ -28,8 +28,15 @@ jobs:
           - python39
           - pypy
           - pypy3
+
         exclude:
-          # no openssl1.0 available on 18.04
+          # 24 and 32 have issues building even on 16.04, disable for now
+          - os: ubuntu-16.04
+            target: python24
+          - os: ubuntu-16.04
+            target: python32
+
+          # no openssl1.0 package available on 18.04?
           - os: ubuntu-18.04
             target: python24
           - os: ubuntu-18.04
@@ -42,6 +49,7 @@ jobs:
             target: python33
           - os: ubuntu-18.04
             target: python34
+
     runs-on: ${{ matrix.os }}
     env:
       BUILDOUT_TARGET: ${{ matrix.target }}
