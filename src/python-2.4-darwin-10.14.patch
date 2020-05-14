@@ -1,0 +1,173 @@
+diff --git a/setup.py b/setup.py
+index 28092e5b3e..16bfd7627d 100644
+--- setup.py
++++ setup.py
+@@ -14,6 +14,13 @@ from distutils.command.build_ext import build_ext
+ from distutils.command.install import install
+ from distutils.command.install_lib import install_lib
+ 
++def get_platform():
++    # Get value of sys.platform
++    if sys.platform.startswith('osf1'):
++        return 'osf1'
++    return sys.platform
++host_platform = get_platform()
++
+ # This global variable is used to hold the list of modules to be disabled.
+ disabled_module_list = []
+ 
+@@ -21,8 +28,75 @@ def add_dir_to_list(dirlist, dir):
+     """Add the directory 'dir' to the list 'dirlist' (at the front) if
+     1) 'dir' is not already in 'dirlist'
+     2) 'dir' actually exists, and is a directory."""
+-    if dir is not None and os.path.isdir(dir) and dir not in dirlist:
+-        dirlist.insert(0, dir)
++    if dir is not None and dir not in dirlist:
++        if host_platform == 'darwin' and is_macosx_sdk_path(dir):
++            # If in a macOS SDK path, check relative to the SDK root
++            dir_exists = os.path.isdir(
++                os.path.join(macosx_sdk_root(), dir[1:]))
++        else:
++            dir_exists = os.path.isdir(dir)
++        if dir_exists:
++            dirlist.insert(0, dir)
++
++MACOS_SDK_ROOT = None
++
++def macosx_sdk_root():
++    """Return the directory of the current macOS SDK.
++
++    If no SDK was explicitly configured, call the compiler to find which
++    include files paths are being searched by default.  Use '/' if the
++    compiler is searching /usr/include (meaning system header files are
++    installed) or use the root of an SDK if that is being searched.
++    (The SDK may be supplied via Xcode or via the Command Line Tools).
++    The SDK paths used by Apple-supplied tool chains depend on the
++    setting of various variables; see the xcrun man page for more info.
++    """
++    global MACOS_SDK_ROOT
++
++    # If already called, return cached result.
++    if MACOS_SDK_ROOT:
++        return MACOS_SDK_ROOT
++
++    cflags = sysconfig.get_config_var('CFLAGS')
++    m = re.search(r'-isysroot\s+(\S+)', cflags)
++    if m is not None:
++        MACOS_SDK_ROOT = m.group(1)
++    else:
++        MACOS_SDK_ROOT = '/'
++        cc = sysconfig.get_config_var('CC')
++        tmpfile = '/tmp/setup_sdk_root.%d' % os.getpid()
++        try:
++            os.unlink(tmpfile)
++        except:
++            pass
++        ret = os.system('%s -E -v - </dev/null 2>%s 1>/dev/null' % (cc, tmpfile))
++        in_incdirs = False
++        try:
++            if ret >> 8 == 0:
++                with open(tmpfile) as fp:
++                    for line in fp.readlines():
++                        if line.startswith("#include <...>"):
++                            in_incdirs = True
++                        elif line.startswith("End of search list"):
++                            in_incdirs = False
++                        elif in_incdirs:
++                            line = line.strip()
++                            if line == '/usr/include':
++                                MACOS_SDK_ROOT = '/'
++                            elif line.endswith(".sdk/usr/include"):
++                                MACOS_SDK_ROOT = line[:-12]
++        finally:
++            os.unlink(tmpfile)
++
++    return MACOS_SDK_ROOT
++
++def is_macosx_sdk_path(path):
++    """
++    Returns True if 'path' can be located in an OSX SDK
++    """
++    return ( (path.startswith('/usr/') and not path.startswith('/usr/local'))
++                or path.startswith('/System/')
++                or path.startswith('/Library/') )
+ 
+ def find_file(filename, std_dirs, paths):
+     """Searches for the directory where a given file is located,
+@@ -35,15 +109,28 @@ def find_file(filename, std_dirs, paths):
+     'paths' is a list of additional locations to check; if the file is
+         found in one of them, the resulting list will contain the directory.
+     """
++    if host_platform == 'darwin':
++        # Honor the MacOSX SDK setting when one was specified.
++        # An SDK is a directory with the same structure as a real
++        # system, but with only header files and libraries.
++        sysroot = macosx_sdk_root()
+ 
+     # Check the standard locations
+     for dir in std_dirs:
+         f = os.path.join(dir, filename)
++
++        if host_platform == 'darwin' and is_macosx_sdk_path(dir):
++            f = os.path.join(sysroot, dir[1:], filename)
++
+         if os.path.exists(f): return []
+ 
+     # Check the additional directories
+     for dir in paths:
+         f = os.path.join(dir, filename)
++
++        if host_platform == 'darwin' and is_macosx_sdk_path(dir):
++            f = os.path.join(sysroot, dir[1:], filename) 
++
+         if os.path.exists(f):
+             return [dir]
+ 
+@@ -55,11 +142,35 @@ def find_library_file(compiler, libname, std_dirs, paths):
+     if result is None:
+         return None
+ 
++    if host_platform == 'darwin':
++        sysroot = macosx_sdk_root()
++
+     # Check whether the found file is in one of the standard directories
+     dirname = os.path.dirname(result)
+     for p in std_dirs:
+         # Ensure path doesn't end with path separator
+         p = p.rstrip(os.sep)
++
++        if host_platform == 'darwin' and is_macosx_sdk_path(p):
++            # Note that, as of Xcode 7, Apple SDKs may contain textual stub
++            # libraries with .tbd extensions rather than the normal .dylib
++            # shared libraries installed in /.  The Apple compiler tool
++            # chain handles this transparently but it can cause problems
++            # for programs that are being built with an SDK and searching
++            # for specific libraries.  Distutils find_library_file() now
++            # knows to also search for and return .tbd files.  But callers
++            # of find_library_file need to keep in mind that the base filename
++            # of the returned SDK library file might have a different extension
++            # from that of the library file installed on the running system,
++            # for example:
++            #   /Applications/Xcode.app/Contents/Developer/Platforms/
++            #       MacOSX.platform/Developer/SDKs/MacOSX10.11.sdk/
++            #       usr/lib/libedit.tbd
++            # vs
++            #   /usr/lib/libedit.dylib
++            if os.path.join(sysroot, p[1:]) == dirname:
++                return [ ]
++
+         if p == dirname:
+             return [ ]
+ 
+@@ -68,6 +179,11 @@ def find_library_file(compiler, libname, std_dirs, paths):
+     for p in paths:
+         # Ensure path doesn't end with path separator
+         p = p.rstrip(os.sep)
++
++        if host_platform == 'darwin' and is_macosx_sdk_path(p):
++            if os.path.join(sysroot, p[1:]) == dirname:
++                return [ p ]
++
+         if p == dirname:
+             return [p]
+     else:
