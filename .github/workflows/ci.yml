@@ -1,0 +1,74 @@
+name: build
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  buildout-test:
+    name: Test
+    strategy:
+      matrix:
+        os: [ubuntu-16.04, ubuntu-18.04, osx]
+        target:
+          - python24
+          - python25
+          - python26
+          - python27
+          - python32
+          - python33
+          - python34
+          - python35
+          - python36
+          - python37
+          - python38
+          - python39
+          - pypy
+          - pypy3
+        exclude:
+          # no openssl1.0 available on 18.04
+          - os: ubuntu-18.04
+            target: python24
+          - os: ubuntu-18.04
+            target: python25
+          - os: ubuntu-18.04
+            target: python26
+          - os: ubuntu-18.04
+            target: python32
+          - os: ubuntu-18.04
+            target: python33
+          - os: ubuntu-18.04
+            target: python34
+    runs-on: ${{ matrix.os }}
+    env:
+      BUILDOUT_TARGET: ${{ matrix.target }}
+    steps:
+      - name: Install OSX dependencies
+        if: matrix.os == 'osx'
+        run: brew install libffi ncurses openssl mjpieters/tap/openssl@1.0
+
+      - name: Install Linux dependencies
+        if: matrix.os != 'osx'
+        run: |
+          apt-get update
+          apt-get install -y libssl-dev libbz2-dev libsqlite3-dev
+
+      - name: Check out source code
+        uses: actions/checkout@v2
+
+      - name: Run buildout
+        run: make -f make-tests buildout_target=$BUILDOUT_TARGET
+
+      - name: Run executable
+        shell: bash
+        run: |
+          if [[ "$BUILDOUT_TARGET" == python* ]]; then
+              # map pythonxy to python-x.y/bin/python
+              EXECUTABLE="python-${BUILDOUT_TARGET:6:1}.${BUILDOUT_TARGET:7}/bin/python"
+          else
+              # run pypy
+              EXECUTABLE="$BUILDOUT_TARGET/bin/python"
+          fi
+          $EXECUTABLE -V
