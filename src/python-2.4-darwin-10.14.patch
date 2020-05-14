@@ -67,18 +67,18 @@ index 28092e5b3e..16bfd7627d 100644
 +        in_incdirs = False
 +        try:
 +            if ret >> 8 == 0:
-+                with open(tmpfile) as fp:
-+                    for line in fp.readlines():
-+                        if line.startswith("#include <...>"):
-+                            in_incdirs = True
-+                        elif line.startswith("End of search list"):
-+                            in_incdirs = False
-+                        elif in_incdirs:
-+                            line = line.strip()
-+                            if line == '/usr/include':
-+                                MACOS_SDK_ROOT = '/'
-+                            elif line.endswith(".sdk/usr/include"):
-+                                MACOS_SDK_ROOT = line[:-12]
++                fp = open(tmpfile)
++                for line in fp.readlines():
++                    if line.startswith("#include <...>"):
++                        in_incdirs = True
++                    elif line.startswith("End of search list"):
++                        in_incdirs = False
++                    elif in_incdirs:
++                        line = line.strip()
++                        if line == '/usr/include':
++                            MACOS_SDK_ROOT = '/'
++                        elif line.endswith(".sdk/usr/include"):
++                            MACOS_SDK_ROOT = line[:-12]
 +        finally:
 +            os.unlink(tmpfile)
 +
