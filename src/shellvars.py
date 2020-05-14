@@ -24,5 +24,7 @@ def expand_shellvars(buildout):
             except CalledProcessError as exc:
                 buildout._logger.debug(
                     "Skipped %s.%s, process failed: %r",
+                    sectname,
+                    name,
                     exc
                 )
