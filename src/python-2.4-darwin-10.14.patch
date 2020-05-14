@@ -1,8 +1,8 @@
 diff --git a/setup.py b/setup.py
-index 28092e5b3e..16bfd7627d 100644
+index 28092e5b3e..8d3b1e6e17 100644
 --- setup.py
 +++ setup.py
-@@ -14,15 +14,90 @@ from distutils.command.build_ext import build_ext
+@@ -14,6 +14,13 @@ from distutils.command.build_ext import build_ext
  from distutils.command.install import install
  from distutils.command.install_lib import install_lib
  
@@ -16,7 +16,7 @@ index 28092e5b3e..16bfd7627d 100644
  # This global variable is used to hold the list of modules to be disabled.
  disabled_module_list = []
  
- def add_dir_to_list(dirlist, dir):
+@@ -21,8 +28,75 @@ def add_dir_to_list(dirlist, dir):
      """Add the directory 'dir' to the list 'dirlist' (at the front) if
      1) 'dir' is not already in 'dirlist'
      2) 'dir' actually exists, and is a directory."""
@@ -94,7 +94,7 @@ index 28092e5b3e..16bfd7627d 100644
  
  def find_file(filename, std_dirs, paths):
      """Searches for the directory where a given file is located,
-@@ -34,15 +109,28 @@ def find_file(filename, std_dirs, paths):
+@@ -35,15 +109,28 @@ def find_file(filename, std_dirs, paths):
      'paths' is a list of additional locations to check; if the file is
          found in one of them, the resulting list will contain the directory.
      """
@@ -118,12 +118,12 @@ index 28092e5b3e..16bfd7627d 100644
          f = os.path.join(dir, filename)
 +
 +        if host_platform == 'darwin' and is_macosx_sdk_path(dir):
-+            f = os.path.join(sysroot, dir[1:], filename) 
++            f = os.path.join(sysroot, dir[1:], filename)
 +
          if os.path.exists(f):
              return [dir]
  
-@@ -54,11 +142,19 @@ def find_library_file(compiler, libname, std_dirs, paths):
+@@ -55,11 +142,19 @@ def find_library_file(compiler, libname, std_dirs, paths):
      if result is None:
          return None
  
@@ -143,7 +143,7 @@ index 28092e5b3e..16bfd7627d 100644
          if p == dirname:
              return [ ]
  
-@@ -67,6 +163,11 @@ def find_library_file(compiler, libname, std_dirs, paths):
+@@ -68,6 +163,11 @@ def find_library_file(compiler, libname, std_dirs, paths):
      for p in paths:
          # Ensure path doesn't end with path separator
          p = p.rstrip(os.sep)
@@ -155,14 +155,13 @@ index 28092e5b3e..16bfd7627d 100644
          if p == dirname:
              return [p]
      else:
-@@ -571,13 +672,20 @@ def detect_modules(self):
-         db_inc_paths = std_variants + db_inc_paths
+@@ -573,12 +673,19 @@ class PyBuildExt(build_ext):
  
          db_ver_inc_map = {}
-+
+ 
 +        if host_platform == 'darwin':
 +            sysroot = macosx_sdk_root()
- 
++
          class db_found(Exception): pass
          try:
              # See whether there is a Sleepycat header in the standard
@@ -172,11 +171,11 @@ index 28092e5b3e..16bfd7627d 100644
 +
 +                if sys.platform == 'darwin' and is_macosx_sdk_path(d):
 +                    f = os.path.join(sysroot, d[1:], "db.h")
- 
++
                  if db_setup_debug: print "db: looking for db.h in", f
                  if os.path.exists(f):
                      f = open(f).read()
-@@ -615,7 +723,21 @@ class db_found(Exception): pass
+@@ -616,7 +723,21 @@ class PyBuildExt(build_ext):
                      os.path.join(db_incdir, '..', '..', 'lib64'),
                      os.path.join(db_incdir, '..', '..', 'lib'),
                  ]
@@ -199,7 +198,7 @@ index 28092e5b3e..16bfd7627d 100644
  
                  # Look for a version specific db-X.Y before an ambiguoius dbX
                  # XXX should we -ever- look for a dbX name?  Do any
-@@ -662,6 +784,12 @@ class db_found(Exception): pass
+@@ -663,6 +784,12 @@ class PyBuildExt(build_ext):
          # underlying db library.  May BSD-ish Unixes incorporate db 1.85
          # symbols into libc and place the include file in /usr/include.
          f = "/usr/include/db.h"
@@ -212,7 +211,7 @@ index 28092e5b3e..16bfd7627d 100644
          if os.path.exists(f):
              data = open(f).read()
              m = re.search(r"#s*define\s+HASHVERSION\s+2\s*", data)
-@@ -776,6 +904,8 @@ class db_found(Exception): pass
+@@ -777,6 +904,8 @@ class PyBuildExt(build_ext):
              zlib_h = zlib_inc[0] + '/zlib.h'
              version = '"0.0.0"'
              version_req = '"1.1.3"'
