@@ -3,7 +3,7 @@
 # in the same section.
 
 def expand_shellvars(buildout):
-    from subprocess import check_output
+    from subprocess import check_output, CalledProcessError
     import os
     for sectname, section in buildout._raw.iteritems():
         if "shellvars" not in section:
@@ -13,10 +13,16 @@ def expand_shellvars(buildout):
             name, cmd = name.strip(), cmd.strip()
             if not cmd:
                 continue
-            section[name] = check_output(cmd, shell=True, env=os.environ).strip()
-            buildout._logger.debug(
-                "Set %s.%s to %r",
-                sectname,
-                name,
-                section[name]
-            )
+            try:
+                section[name] = check_output(cmd, shell=True, env=os.environ).strip()
+                buildout._logger.debug(
+                    "Set %s.%s to %r",
+                    sectname,
+                    name,
+                    section[name]
+                )
+            except CalledProcessError as exc:
+                buildout._logger.debug(
+                    "Skipped %s.%s, process failed: %r",
+                    exc
+                )
