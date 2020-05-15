@@ -43,19 +43,7 @@ jobs:
             target: python24
             xfail: true
           - os: ubuntu-18.04
-            target: python25
-            xfail: true
-          - os: ubuntu-18.04
-            target: python26
-            xfail: true
-          - os: ubuntu-18.04
             target: python32
-            xfail: true
-          - os: ubuntu-18.04
-            target: python33
-            xfail: true
-          - os: ubuntu-18.04
-            target: python34
             xfail: true
 
           # additional backports needed for macOS 10.14 SDK changes
