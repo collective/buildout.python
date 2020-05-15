@@ -85,7 +85,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Run buildout
-        run: make -f make-tests buildout_target=$BUILDOUT_TARGET
+        run: make -f .github/workflows/make-tests buildout_target=$BUILDOUT_TARGET
 
       - name: Run executable
         shell: bash

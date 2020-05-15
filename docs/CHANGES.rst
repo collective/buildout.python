@@ -8,6 +8,9 @@ Changes
   3.7 to older Python releases.
   [mj]
 
+- Refactored and cleaned up the project layout.
+  [mj]
+
 2020-05-13
 ----------
 
