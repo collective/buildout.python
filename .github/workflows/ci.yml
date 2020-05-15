@@ -30,18 +30,11 @@ jobs:
           - pypy3
 
         include:
-          # 24 and 32 have issues building even on 16.04
-          - os: ubuntu-16.04
-            target: python24
-            xfail: true
+          # 32 still has some issues building
           - os: ubuntu-16.04
             target: python32
             xfail: true
 
-          # no openssl1.0 package available on 18.04?
-          - os: ubuntu-18.04
-            target: python24
-            xfail: true
           - os: ubuntu-18.04
             target: python32
             xfail: true
