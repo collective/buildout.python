@@ -1,3 +1,6 @@
+.. image:: https://github.com/collective/buildout.python/workflows/build/badge.svg
+   :target: https://github.com/collective/buildout.python/actions?query=workflow%3Abuild+branch%3Amaster
+
 Introduction
 ------------
 
