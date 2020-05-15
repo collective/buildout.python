@@ -1,8 +1,15 @@
 diff --git a/setup.py b/setup.py
-index bf5c078989..82cec8460c 100644
+index bf5c078989..cd7d5a5b2f 100644
 --- setup.py
 +++ setup.py
-@@ -14,6 +14,13 @@ from distutils.command.build_ext import build_ext
+@@ -1,5 +1,6 @@
+ # Autodetecting setup.py script for building the Python extensions
+ #
++from __future__ import with_statement
+ 
+ __version__ = "$Revision$"
+ 
+@@ -14,6 +15,13 @@ from distutils.command.build_ext import build_ext
  from distutils.command.install import install
  from distutils.command.install_lib import install_lib
  
@@ -16,7 +23,7 @@ index bf5c078989..82cec8460c 100644
  # This global variable is used to hold the list of modules to be disabled.
  disabled_module_list = []
  
-@@ -21,8 +28,75 @@ def add_dir_to_list(dirlist, dir):
+@@ -21,8 +29,75 @@ def add_dir_to_list(dirlist, dir):
      """Add the directory 'dir' to the list 'dirlist' (at the front) if
      1) 'dir' is not already in 'dirlist'
      2) 'dir' actually exists, and is a directory."""
@@ -94,7 +101,7 @@ index bf5c078989..82cec8460c 100644
  
  def find_file(filename, std_dirs, paths):
      """Searches for the directory where a given file is located,
-@@ -35,15 +109,28 @@ def find_file(filename, std_dirs, paths):
+@@ -35,15 +110,28 @@ def find_file(filename, std_dirs, paths):
      'paths' is a list of additional locations to check; if the file is
          found in one of them, the resulting list will contain the directory.
      """
@@ -123,7 +130,7 @@ index bf5c078989..82cec8460c 100644
          if os.path.exists(f):
              return [dir]
  
-@@ -55,11 +142,19 @@ def find_library_file(compiler, libname, std_dirs, paths):
+@@ -55,11 +143,19 @@ def find_library_file(compiler, libname, std_dirs, paths):
      if result is None:
          return None
  
@@ -143,7 +150,7 @@ index bf5c078989..82cec8460c 100644
          if p == dirname:
              return [ ]
  
-@@ -68,6 +163,11 @@ def find_library_file(compiler, libname, std_dirs, paths):
+@@ -68,6 +164,11 @@ def find_library_file(compiler, libname, std_dirs, paths):
      for p in paths:
          # Ensure path doesn't end with path separator
          p = p.rstrip(os.sep)
@@ -155,7 +162,7 @@ index bf5c078989..82cec8460c 100644
          if p == dirname:
              return [p]
      else:
-@@ -664,12 +764,19 @@ class PyBuildExt(build_ext):
+@@ -664,12 +765,19 @@ class PyBuildExt(build_ext):
  
          db_ver_inc_map = {}
  
@@ -175,7 +182,7 @@ index bf5c078989..82cec8460c 100644
                  if db_setup_debug: print "db: looking for db.h in", f
                  if os.path.exists(f):
                      f = open(f).read()
-@@ -718,7 +825,22 @@ class PyBuildExt(build_ext):
+@@ -718,7 +826,22 @@ class PyBuildExt(build_ext):
                  ]
                  db_dirs_to_check = filter(os.path.isdir, db_dirs_to_check)
  
@@ -199,7 +206,7 @@ index bf5c078989..82cec8460c 100644
                  # XXX should we -ever- look for a dbX name?  Do any
                  # systems really not name their library by version and
                  # symlink to more general names?
-@@ -775,7 +897,13 @@ class PyBuildExt(build_ext):
+@@ -775,7 +898,13 @@ class PyBuildExt(build_ext):
          # Scan the default include directories before the SQLite specific
          # ones. This allows one to override the copy of sqlite on OSX,
          # where /usr/include contains an old version of sqlite.
@@ -213,7 +220,7 @@ index bf5c078989..82cec8460c 100644
              f = os.path.join(d, "sqlite3.h")
              if os.path.exists(f):
                  if sqlite_setup_debug: print "sqlite: found %s"%f
-@@ -858,6 +986,12 @@ class PyBuildExt(build_ext):
+@@ -858,6 +987,12 @@ class PyBuildExt(build_ext):
          # the more recent berkeleydb's db.h file first in the include path
          # when attempting to compile and it will fail.
          f = "/usr/include/db.h"
@@ -226,7 +233,7 @@ index bf5c078989..82cec8460c 100644
          if os.path.exists(f) and not db_incs:
              data = open(f).read()
              m = re.search(r"#s*define\s+HASHVERSION\s+2\s*", data)
-@@ -952,6 +1086,7 @@ class PyBuildExt(build_ext):
+@@ -952,6 +1087,7 @@ class PyBuildExt(build_ext):
          if (module_enabled(exts, '_curses') and
              self.compiler.find_library_file(lib_dirs, panel_library)):
              exts.append( Extension('_curses_panel', ['_curses_panel.c'],
@@ -234,7 +241,7 @@ index bf5c078989..82cec8460c 100644
                                     libraries = [panel_library] + curses_libs) )
  
  
-@@ -972,6 +1107,8 @@ class PyBuildExt(build_ext):
+@@ -972,6 +1108,8 @@ class PyBuildExt(build_ext):
              zlib_h = zlib_inc[0] + '/zlib.h'
              version = '"0.0.0"'
              version_req = '"1.1.3"'
@@ -243,7 +250,7 @@ index bf5c078989..82cec8460c 100644
              fp = open(zlib_h)
              while 1:
                  line = fp.readline()
-@@ -1165,14 +1302,20 @@ class PyBuildExt(build_ext):
+@@ -1165,14 +1303,20 @@ class PyBuildExt(build_ext):
              join(os.getenv('HOME'), '/Library/Frameworks')
          ]
  
