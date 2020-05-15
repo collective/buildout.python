@@ -11,6 +11,8 @@ parts =
     $${buildout:readline-parts}
     $${buildout:zlib-parts}
     $${buildout:$(buildout_target)-parts}
+[python-build:default]
+optimizations =
 endef
 export cfg
 
