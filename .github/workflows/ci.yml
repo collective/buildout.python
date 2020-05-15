@@ -10,7 +10,6 @@ jobs:
   buildout-test:
     name: Test
     strategy:
-      continue-on-error: ${{ matrix.xfail }}
       fail-fast: false
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, macos-latest]
@@ -77,6 +76,7 @@ jobs:
             target: python36
             xfail: true
 
+    continue-on-error: ${{ matrix.xfail }}
     runs-on: ${{ matrix.os }}
     env:
       BUILDOUT_TARGET: ${{ matrix.target }}
