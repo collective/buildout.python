@@ -4,12 +4,14 @@ extends =
     src/base.cfg
     src/readline.cfg
     src/zlib.cfg
+    src/openssl10.cfg
     src/$(buildout_target).cfg
 python-buildout-root = $${buildout:directory}/src
 parts =
     $${buildout:base-parts}
     $${buildout:readline-parts}
     $${buildout:zlib-parts}
+    $${buildout:openssl10-parts}
     $${buildout:$(buildout_target)-parts}
 [python-build:default]
 optimizations =
