@@ -75,7 +75,7 @@ jobs:
             target: python36
             xfail: true
 
-    continue-on-error: ${{ matrix.xfail }}
+    continue-on-error: ${{ matrix.xfail }} || false
     runs-on: ${{ matrix.os }}
     env:
       BUILDOUT_TARGET: ${{ matrix.target }}
