@@ -1,0 +1,113 @@
+diff --git a/setup.py b/setup.py
+index 4fe1f4577c..1dc1a204ab 100644
+--- setup.py
++++ setup.py
+@@ -17,6 +17,13 @@ from distutils.command.install import install
+ from distutils.command.install_lib import install_lib
+ from distutils.spawn import find_executable
+ 
++def get_platform():
++    # Get value of sys.platform
++    if sys.platform.startswith('osf1'):
++        return 'osf1'
++    return sys.platform
++host_platform = get_platform()
++
+ # This global variable is used to hold the list of modules to be disabled.
+ disabled_module_list = []
+ 
+@@ -24,27 +31,75 @@ def add_dir_to_list(dirlist, dir):
+     """Add the directory 'dir' to the list 'dirlist' (at the front) if
+     1) 'dir' is not already in 'dirlist'
+     2) 'dir' actually exists, and is a directory."""
+-    if dir is not None and os.path.isdir(dir) and dir not in dirlist:
+-        dirlist.insert(0, dir)
++    if dir is not None and dir not in dirlist:
++        if host_platform == 'darwin' and is_macosx_sdk_path(dir):
++            # If in a macOS SDK path, check relative to the SDK root
++            dir_exists = os.path.isdir(
++                os.path.join(macosx_sdk_root(), dir[1:]))
++        else:
++            dir_exists = os.path.isdir(dir)
++        if dir_exists:
++            dirlist.insert(0, dir)
++
++MACOS_SDK_ROOT = None
+ 
+ def macosx_sdk_root():
++    """Return the directory of the current macOS SDK.
++
++    If no SDK was explicitly configured, call the compiler to find which
++    include files paths are being searched by default.  Use '/' if the
++    compiler is searching /usr/include (meaning system header files are
++    installed) or use the root of an SDK if that is being searched.
++    (The SDK may be supplied via Xcode or via the Command Line Tools).
++    The SDK paths used by Apple-supplied tool chains depend on the
++    setting of various variables; see the xcrun man page for more info.
+     """
+-    Return the directory of the current OSX SDK,
+-    or '/' if no SDK was specified.
+-    """
++    global MACOS_SDK_ROOT
++
++    # If already called, return cached result.
++    if MACOS_SDK_ROOT:
++        return MACOS_SDK_ROOT
++
+     cflags = sysconfig.get_config_var('CFLAGS')
+     m = re.search(r'-isysroot\s+(\S+)', cflags)
+-    if m is None:
+-        sysroot = '/'
++    if m is not None:
++        MACOS_SDK_ROOT = m.group(1)
+     else:
+-        sysroot = m.group(1)
+-    return sysroot
++        MACOS_SDK_ROOT = '/'
++        cc = sysconfig.get_config_var('CC')
++        tmpfile = '/tmp/setup_sdk_root.%d' % os.getpid()
++        try:
++            os.unlink(tmpfile)
++        except:
++            pass
++        ret = os.system('%s -E -v - </dev/null 2>%s 1>/dev/null' % (cc, tmpfile))
++        in_incdirs = False
++        try:
++            if ret >> 8 == 0:
++                with open(tmpfile) as fp:
++                    for line in fp.readlines():
++                        if line.startswith("#include <...>"):
++                            in_incdirs = True
++                        elif line.startswith("End of search list"):
++                            in_incdirs = False
++                        elif in_incdirs:
++                            line = line.strip()
++                            if line == '/usr/include':
++                                MACOS_SDK_ROOT = '/'
++                            elif line.endswith(".sdk/usr/include"):
++                                MACOS_SDK_ROOT = line[:-12]
++        finally:
++            os.unlink(tmpfile)
++
++    return MACOS_SDK_ROOT
+ 
+ def is_macosx_sdk_path(path):
+     """
+     Returns True if 'path' can be located in an OSX SDK
+     """
+-    return (path.startswith('/usr/') and not path.startswith('/usr/local')) or path.startswith('/System/')
++    return ( (path.startswith('/usr/') and not path.startswith('/usr/local'))
++                or path.startswith('/System/')
++                or path.startswith('/Library/') )
+ 
+ def find_file(filename, std_dirs, paths):
+     """Searches for the directory where a given file is located,
+@@ -1241,6 +1296,8 @@ class PyBuildExt(build_ext):
+             zlib_h = zlib_inc[0] + '/zlib.h'
+             version = '"0.0.0"'
+             version_req = '"1.1.3"'
++            if host_platform == 'darwin' and is_macosx_sdk_path(zlib_h):
++                zlib_h = os.path.join(macosx_sdk_root(), zlib_h[1:])
+             fp = open(zlib_h)
+             while 1:
+                 line = fp.readline()
