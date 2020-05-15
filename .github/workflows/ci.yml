@@ -10,9 +10,11 @@ jobs:
   buildout-test:
     name: Test
     strategy:
+      continue-on-error: ${{ matrix.xfail }}
       fail-fast: false
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, macos-latest]
+        xfail: [false]
         target:
           - python24
           - python25
@@ -29,26 +31,51 @@ jobs:
           - pypy
           - pypy3
 
-        exclude:
-          # 24 and 32 have issues building even on 16.04, disable for now
+        include:
+          # 24 and 32 have issues building even on 16.04
           - os: ubuntu-16.04
             target: python24
+            xfail: true
           - os: ubuntu-16.04
             target: python32
+            xfail: true
 
           # no openssl1.0 package available on 18.04?
           - os: ubuntu-18.04
             target: python24
+            xfail: true
           - os: ubuntu-18.04
             target: python25
+            xfail: true
           - os: ubuntu-18.04
             target: python26
+            xfail: true
           - os: ubuntu-18.04
             target: python32
+            xfail: true
           - os: ubuntu-18.04
             target: python33
+            xfail: true
           - os: ubuntu-18.04
             target: python34
+            xfail: true
+
+          # additional backports needed for macOS 10.14 SDK changes
+          - os: macos-latest
+            target: python32
+            xfail: true
+          - os: macos-latest
+            target: python33
+            xfail: true
+          - os: macos-latest
+            target: python34
+            xfail: true
+          - os: macos-latest
+            target: python35
+            xfail: true
+          - os: macos-latest
+            target: python36
+            xfail: true
 
     runs-on: ${{ matrix.os }}
     env:
