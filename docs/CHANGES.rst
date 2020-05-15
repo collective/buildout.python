@@ -1,6 +1,13 @@
 Changes
 =======
 
+2020-05-15
+----------
+
+- Backported build fixes for OS X 10.14 SDK location changes from Python 2.7 / 
+  3.7 to older Python releases.
+  [mj]
+
 2020-05-13
 ----------
 
