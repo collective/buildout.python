@@ -82,7 +82,17 @@ jobs:
     steps:
       - name: Install OSX dependencies
         if: startsWith(matrix.os, 'macos-')
-        run: brew install libffi ncurses openssl mjpieters/tap/openssl@1.0
+        run: brew install libffi ncurses openssl
+
+      - name: Install openssl@1.0 on OSX
+        if: |
+          startsWith(matrix.os, 'macos-') && contains(
+            fromJSON(
+              '["python24","python25","python26","python32","python33","python34"]'
+            ),
+            matrix.target
+          )
+        run: brew install mjpieters/tap/openssl@1.0
 
       - name: Install Linux dependencies
         if: startsWith(matrix.os, 'ubuntu-')
