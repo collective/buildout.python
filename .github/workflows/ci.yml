@@ -46,23 +46,6 @@ jobs:
             target: python32
             xfail: true
 
-          # additional backports needed for macOS 10.14 SDK changes
-          - os: macos-latest
-            target: python32
-            xfail: true
-          - os: macos-latest
-            target: python33
-            xfail: true
-          - os: macos-latest
-            target: python34
-            xfail: true
-          - os: macos-latest
-            target: python35
-            xfail: true
-          - os: macos-latest
-            target: python36
-            xfail: true
-
     continue-on-error: ${{ matrix.xfail || false }}
     runs-on: ${{ matrix.os }}
     env:
