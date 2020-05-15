@@ -233,15 +233,7 @@ index bf5c078989..cd7d5a5b2f 100644
          if os.path.exists(f) and not db_incs:
              data = open(f).read()
              m = re.search(r"#s*define\s+HASHVERSION\s+2\s*", data)
-@@ -952,6 +1087,7 @@ class PyBuildExt(build_ext):
-         if (module_enabled(exts, '_curses') and
-             self.compiler.find_library_file(lib_dirs, panel_library)):
-             exts.append( Extension('_curses_panel', ['_curses_panel.c'],
-+                                   include_dirs = curses_incs,
-                                    libraries = [panel_library] + curses_libs) )
- 
- 
-@@ -972,6 +1108,8 @@ class PyBuildExt(build_ext):
+@@ -972,6 +1107,8 @@ class PyBuildExt(build_ext):
              zlib_h = zlib_inc[0] + '/zlib.h'
              version = '"0.0.0"'
              version_req = '"1.1.3"'
@@ -250,7 +242,7 @@ index bf5c078989..cd7d5a5b2f 100644
              fp = open(zlib_h)
              while 1:
                  line = fp.readline()
-@@ -1165,14 +1303,20 @@ class PyBuildExt(build_ext):
+@@ -1165,14 +1302,20 @@ class PyBuildExt(build_ext):
              join(os.getenv('HOME'), '/Library/Frameworks')
          ]
  
