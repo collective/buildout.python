@@ -9,11 +9,12 @@ on:
 jobs:
   buildout-test:
     name: Test
+    defaults:
+      continue-on-error: false
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-16.04, ubuntu-18.04, macos-latest]
-        xfail: [false]
         target:
           - python24
           - python25
