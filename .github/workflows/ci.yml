@@ -64,9 +64,12 @@ jobs:
         run: |
           if [[ "$BUILDOUT_TARGET" == python* ]]; then
               # map pythonxy to python-x.y/bin/python
-              EXECUTABLE="python-${BUILDOUT_TARGET:6:1}.${BUILDOUT_TARGET:7}/bin/python"
+              PYVERSION="${BUILDOUT_TARGET:6:1}.${BUILDOUT_TARGET:7}"
+              EXECUTABLE="python-${PYVERSION}/bin/python"
           else
               # run pypy
+              PYVERSION="$BUILDOUT_TARGET"
               EXECUTABLE="$BUILDOUT_TARGET/bin/python"
           fi
           $EXECUTABLE -V
+          bin/virtualenv-${PYVERSION} --version
