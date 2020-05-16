@@ -76,7 +76,21 @@ except ImportError:
         ez['use_setuptools'].func_defaults = tuple(
             v.replace('http:', 'https:') if hasattr(v, 'replace') else v
             for v in ez['use_setuptools'].func_defaults)
-        ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
+        result = ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
+        if result is None:
+            # existing setuptools found, verify version
+            ws = pkg_resources.working_set
+            existing = ws.by_key.get('setuptools')
+            if existing not in pkg_resources.Requirement.parse('setuptools<39dev'):
+                # version too new, replace it locally
+                egg = ez['download_setuptools'](
+                    download_base=ez['DEFAULT_URL'].replace('http:', 'https:'),
+                    to_dir=tmpeggs,
+                    delay=0,
+                )
+                sys.path.insert(0, egg)
+                import setuptools
+                setuptools.bootstrap_install_from = egg
 
     if to_reload:
         reload(pkg_resources)
