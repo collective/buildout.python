@@ -60,6 +60,7 @@ args = args + ['bootstrap']
 
 to_reload = False
 try:
+    pkg_resources = None
     import pkg_resources
     if not hasattr(pkg_resources, '_distribute'):
         to_reload = True
@@ -77,7 +78,7 @@ except ImportError:
             v.replace('http:', 'https:') if hasattr(v, 'replace') else v
             for v in ez['use_setuptools'].func_defaults)
         result = ez['use_setuptools'](to_dir=tmpeggs, download_delay=0)
-        if result is None:
+        if result is None and pkg_resources is not None:
             # existing setuptools found, verify version
             ws = pkg_resources.working_set
             existing = ws.by_key.get('setuptools')
