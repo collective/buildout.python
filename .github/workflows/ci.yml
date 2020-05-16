@@ -29,17 +29,6 @@ jobs:
           - pypy
           - pypy3
 
-        include:
-          # 32 still has some issues building
-          - os: ubuntu-16.04
-            target: python32
-            xfail: true
-
-          - os: ubuntu-18.04
-            target: python32
-            xfail: true
-
-    continue-on-error: ${{ matrix.xfail || false }}
     runs-on: ${{ matrix.os }}
     env:
       BUILDOUT_TARGET: ${{ matrix.target }}
