@@ -53,16 +53,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y libssl-dev libbz2-dev libsqlite3-dev libtinfo-dev
 
-      - name: Downgrade setuptools
-        shell: bash
-        run: |
-          # work-around for issue 85 for the time being
-          if python -m pip >/dev/null 2>&1; then
-            if python -m pip show setuptools >/dev/null 2>&1; then
-              sudo python -m pip install --force 'setuptools<39' || true
-            fi
-          fi
-
       - name: Check out source code
         uses: actions/checkout@v2
 
