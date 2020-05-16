@@ -7,6 +7,10 @@ Changes
 - Include OpenSSL 1.0.1 to build Python 2.4, 2.5 and 3.2 on Linux.
   [mj]
 
+- Install local setuptools egg when setuptools used by Python is too new (39.x
+  or higher); zc.buildout relies on behaviour that was removed (issue #85).
+  [mj]
+
 2020-05-15
 ----------
 
