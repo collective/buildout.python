@@ -20,7 +20,7 @@ libssl, python and curl.
 On Debian and Ubuntu GNU/Linux, install the following packages::
 
   $ sudo apt-get install build-essential libssl-dev python curl libbz2-dev
-  libsqlite3-dev libtinfo-dev
+  libsqlite3-dev
 
 For sqlite support on Python 2.4 install the following package::
 
