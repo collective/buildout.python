@@ -41,7 +41,7 @@ jobs:
         if: |
           startsWith(matrix.os, 'macos-') && contains(
             fromJSON(
-              '["python24","python25","python26","python32","python33","python34"]'
+              '["python24","python25","python32","python33"]'
             ),
             matrix.target
           )
