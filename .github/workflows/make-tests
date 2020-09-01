@@ -1,3 +1,12 @@
+# only include compiled deps for non-PyPy targets
+ifeq (,$(findstring pypy,$(buildout_target)))
+define includeparts
+    $${buildout:readline-parts}
+    $${buildout:zlib-parts}
+    $${buildout:openssl10-parts}
+endef
+endif
+
 define cfg
 [buildout]
 extends =
@@ -9,12 +18,11 @@ extends =
 python-buildout-root = $${buildout:directory}/src
 parts =
     $${buildout:base-parts}
-    $${buildout:readline-parts}
-    $${buildout:zlib-parts}
-    $${buildout:openssl10-parts}
+$(includeparts)
     $${buildout:$(buildout_target)-parts}
 [python-build:default]
 optimizations =
+
 endef
 export cfg
 
