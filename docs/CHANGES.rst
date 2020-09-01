@@ -7,6 +7,9 @@ Changes
 - Update fest: Python 3.6.12, 3.7.9, 3.8.5 and 3.9.0rc1.
   [mj]
 
+- Update PyPy and PyPy 3 to 7.3.1
+  [mj]
+
 2020-06-10
 ----------
 
