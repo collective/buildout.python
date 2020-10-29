@@ -26,6 +26,7 @@ jobs:
           - python37
           - python38
           - python39
+          - python310
           - pypy
           - pypy3
 
