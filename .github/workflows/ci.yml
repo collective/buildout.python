@@ -51,6 +51,10 @@ jobs:
       - name: Install Linux dependencies
         if: startsWith(matrix.os, 'ubuntu-')
         run: |
+          # from https://github.com/actions/virtual-environments/issues/987#issuecomment-637791840
+          # to work around flakiness of the opensuse.com download site; we
+          # don't need this repo.
+          sudo rm -rf /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
           sudo apt-get update
           sudo apt-get install -y libssl-dev libbz2-dev libsqlite3-dev
 
