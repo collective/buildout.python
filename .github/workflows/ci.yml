@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - debug_ubuntu1804_gha
   pull_request:
 
 jobs:
