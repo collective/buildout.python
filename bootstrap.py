@@ -58,14 +58,11 @@ else:
 USE_DISTRIBUTE = options.distribute
 args = args + ['bootstrap']
 
-to_reload = False
 try:
     pkg_resources = None
     import pkg_resources
-    if not hasattr(pkg_resources, '_distribute'):
-        to_reload = True
-        raise ImportError
-except ImportError:
+    pkg_resources._distribute  # to trigger attributeerror
+except (ImportError, AttributeError):
     ez = {}
     if USE_DISTRIBUTE:
         exec urllib2.urlopen('http://python-distribute.org/distribute_setup.py'
@@ -82,7 +79,6 @@ except ImportError:
             # existing setuptools found, verify version
             ws = pkg_resources.working_set
             existing = ws.by_key.get('setuptools')
-            print("existing: %r, to_reload: %r, pkg_resources in sys.modules: %r" % (existing, to_reload, "pkg_resources" in sys.modules))
             if (
                 existing is None
                 or existing not in pkg_resources.Requirement.parse('setuptools<39dev')
@@ -98,10 +94,11 @@ except ImportError:
                 import setuptools
                 setuptools.bootstrap_install_from = egg
 
-    if to_reload:
+    if "pkg_resources" in sys.modules:
+        assert pkg_resources is not None
         reload(pkg_resources)
-    else:
-        import pkg_resources
+
+    import pkg_resources
 
 if sys.platform == 'win32':
     def quote(c):
