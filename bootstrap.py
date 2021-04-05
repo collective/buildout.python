@@ -96,7 +96,7 @@ except (ImportError, AttributeError):
 
     if "pkg_resources" in sys.modules:
         assert pkg_resources is not None
-        reload(pkg_resources)
+        del sys.modules["pkg_resources"]
 
     import pkg_resources
 
