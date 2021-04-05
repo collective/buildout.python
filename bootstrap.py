@@ -58,14 +58,11 @@ else:
 USE_DISTRIBUTE = options.distribute
 args = args + ['bootstrap']
 
-to_reload = False
 try:
     pkg_resources = None
     import pkg_resources
-    if not hasattr(pkg_resources, '_distribute'):
-        to_reload = True
-        raise ImportError
-except ImportError:
+    pkg_resources._distribute  # to trigger attributeerror
+except (ImportError, AttributeError):
     ez = {}
     if USE_DISTRIBUTE:
         exec urllib2.urlopen('http://python-distribute.org/distribute_setup.py'
@@ -82,8 +79,12 @@ except ImportError:
             # existing setuptools found, verify version
             ws = pkg_resources.working_set
             existing = ws.by_key.get('setuptools')
-            if existing not in pkg_resources.Requirement.parse('setuptools<39dev'):
-                # version too new, replace it locally
+            if (
+                existing is None
+                or existing not in pkg_resources.Requirement.parse('setuptools<39dev')
+            ):
+                # version too new or a Ubuntu package without egg info, replace it locally
+                
                 egg = ez['download_setuptools'](
                     download_base=ez['DEFAULT_URL'].replace('http:', 'https:'),
                     to_dir=tmpeggs,
@@ -93,10 +94,11 @@ except ImportError:
                 import setuptools
                 setuptools.bootstrap_install_from = egg
 
-    if to_reload:
-        reload(pkg_resources)
-    else:
-        import pkg_resources
+    if "pkg_resources" in sys.modules:
+        assert pkg_resources is not None
+        del sys.modules["pkg_resources"]
+
+    import pkg_resources
 
 if sys.platform == 'win32':
     def quote(c):

@@ -7,6 +7,8 @@ Changes
 - Python 3.9.4 ABI fix.
   [mj]
 
+- Make bootstrap.py work in GitHub actions with Ubuntu's `python-setup` package installed.
+
 2021-04-04
 ----------
 
