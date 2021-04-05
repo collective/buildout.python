@@ -84,7 +84,7 @@ except ImportError:
             existing = ws.by_key.get('setuptools')
             if existing is not None and not isinstance(existing, (pkg_resources.Distribution, str)):
                 print("DEBUG: existing = %r" % existing)
-            if existing not in pkg_resources.Requirement.parse('setuptools<39dev'):
+            if existing and existing not in pkg_resources.Requirement.parse('setuptools<39dev'):
                 # version too new, replace it locally
                 egg = ez['download_setuptools'](
                     download_base=ez['DEFAULT_URL'].replace('http:', 'https:'),
