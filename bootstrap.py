@@ -82,7 +82,7 @@ except ImportError:
             # existing setuptools found, verify version
             ws = pkg_resources.working_set
             existing = ws.by_key.get('setuptools')
-            print("existing: %r, to_reload: %r" % (existing, to_reload))
+            print("existing: %r, to_reload: %r, pkg_resources in sys.modules: %r" % (existing, to_reload, "pkg_resources" in sys.modules))
             if (
                 existing is None
                 or existing not in pkg_resources.Requirement.parse('setuptools<39dev')
