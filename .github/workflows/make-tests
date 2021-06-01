@@ -32,7 +32,7 @@ test.cfg:
 	test -e $@ || echo "$$cfg" > $@
 
 bin/buildout:
-	python bootstrap.py
+	python2.7 bootstrap.py
 
 .installed.cfg: test.cfg bin/buildout
 	bin/buildout -vvc test.cfg
