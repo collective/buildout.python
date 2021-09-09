@@ -10,6 +10,7 @@ MAC_RELEASE_NAMES = {
     '10.13': 'highsierra',
     '10.14': 'mojave',
     '10.15': 'catalina',
+    '10.16': 'bigsur',
 }
 
 
